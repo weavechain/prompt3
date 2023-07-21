@@ -1,0 +1,11 @@
+@import "../../assets/styles/app";
+
+.root {
+	@include flex();
+
+	.highlight {
+		background-color: $yellow-100;
+		font-weight: 600;
+		padding: 0 4px;
+	}
+}

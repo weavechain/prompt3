@@ -1,0 +1,102 @@
+.form-control {
+	background-color: $white-color;
+	border: 1px solid $gray-100;
+	border-radius: $border-radius-base;
+	color: #565656;
+
+	@include input-size(
+		$padding-base-vertical,
+		$padding-base-horizontal - 4,
+		$height-base
+	);
+
+	@include box-shadow(none);
+
+	&:focus {
+		background-color: $white-color;
+		border: 1px solid $gray-100;
+		@include box-shadow(none);
+		outline: 0 !important;
+	}
+
+	.has-success &,
+	.has-error &,
+	.has-success &:focus,
+	.has-error &:focus {
+		border-color: $gray-100;
+		@include box-shadow(none);
+	}
+
+	.has-success & {
+		color: $green-dark;
+	}
+
+	.has-success &:focus {
+		border-color: $green-dark;
+	}
+
+	.has-error & {
+		color: $danger-color;
+	}
+
+	.has-error &:focus {
+		border-color: $danger-color;
+	}
+
+	//@include placeholder();
+}
+
+.has-error {
+	.form-control-feedback {
+		color: $danger-color;
+	}
+}
+
+.has-success {
+	.form-control-feedback {
+		color: $green-dark;
+	}
+}
+
+.input-group-addon {
+	background-color: $white-color;
+	border: 1px solid $gray-100;
+	border-radius: $border-radius-base;
+
+	.has-success &,
+	.has-error & {
+		background-color: $white-color;
+		border: 1px solid $gray-100;
+	}
+	.has-error .form-control:focus + & {
+		border-color: $danger-color;
+		color: $danger-color;
+	}
+	.has-success .form-control:focus + & {
+		border-color: $green-dark;
+		color: $green-dark;
+	}
+	.form-control:focus + &,
+	.form-control:focus ~ & {
+		background-color: $white-color;
+		border-color: $gray-100;
+	}
+}
+
+/* Form controls */
+.form-control:focus,
+.form-control:focus {
+	border-color: $green-dark;
+	box-shadow: none;
+}
+
+/* Radio buttons */
+.custom-control-input:checked ~ .custom-control-label::before {
+	background-color: $green-dark;
+	border-color: $green-dark;
+}
+
+input:disabled {
+	border: 1px solid $gray-20;
+	background: $white-10 !important;
+}

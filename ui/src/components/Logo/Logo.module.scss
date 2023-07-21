@@ -1,0 +1,25 @@
+@import "../../assets/styles/app";
+
+.root {
+	padding: 10px 15px 9px 15px;
+	position: relative;
+	z-index: 4;
+
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+
+.logo {
+	max-width: 206px;
+
+	& {
+		@media (max-width: $screen-md-min) {
+			max-width: 140px;
+		}
+
+		@media (max-width: $screen-sm-min) {
+			max-width: 100px;
+		}
+	}
+}

@@ -1,0 +1,40 @@
+@import "../../../assets/styles/app";
+
+.root {
+	.title {
+		@include font-header2($gray-100);
+		text-align: center;
+		margin-bottom: 10px;
+	}
+
+	.description {
+		@include font-body16($gray-100);
+	}
+
+	.content {
+		margin-top: 16px;
+	}
+
+	.input {
+		@include font-body16($gray-100);
+		border: solid 1px $gray-20;
+	}
+
+	.info {
+		@include font-body12($gray-80);
+		margin-top: 4px;
+	}
+
+	button.isLeftButton {
+		position: absolute;
+		left: 14px;
+		top: 8px;
+		@include font-button-text($danger);
+		border: none !important;
+		background: none !important;
+
+		&:hover {
+			color: $blue-100;
+		}
+	}
+}

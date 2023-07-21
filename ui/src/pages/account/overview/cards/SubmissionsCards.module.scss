@@ -1,0 +1,51 @@
+@import "../../../../assets/styles/app";
+
+.root {
+	width: 100%;
+	@include flex();
+	justify-content: space-between;
+	flex-wrap: wrap;
+	margin-top: 16px;
+
+	.card {
+		padding: 12px 16px;
+		border-radius: 4px;
+		width: 154px;
+		height: 112px;
+		display: flex;
+		flex-direction: column;
+		align-items: flex-start;
+		justify-content: space-between;
+
+		&.accepted {
+			background: $green-60;
+		}
+
+		&.rejected {
+			background-color: #f8d7da;
+		}
+
+		&.pending {
+			background-color: $blue-60;
+		}
+
+		&.submitted {
+			background-color: $white-10;
+		}
+
+		.title {
+			@include font-header5($gray-80, "Poppins", 600);
+		}
+
+		.value {
+			@include font-header1($gray-100, "Poppins-Medium", 700);
+			text-align: right;
+			letter-spacing: -0.4px;
+			width: 100%;
+		}
+	}
+
+	.card + .card {
+		margin-left: 20px;
+	}
+}

@@ -1,0 +1,45 @@
+@import "../../../node_modules/bootstrap/scss/mixins";
+@import "../../../node_modules/bootstrap/scss/bootstrap";
+
+@import "../../../node_modules/font-awesome/css/font-awesome.min.css";
+@import "../../../node_modules/awesome-bootstrap-checkbox/awesome-bootstrap-checkbox";
+
+@import "../../../node_modules/react-toastify/dist/ReactToastify.css";
+
+
+@import "../../../node_modules/bootstrap/scss/functions";
+@import "../../../node_modules/bootstrap/scss/variables";
+@import "../../../node_modules/bootstrap/scss/mixins";
+
+
+@import "_variables";
+@import "_fonts";
+@import "_mixins";
+@import "_buttons";
+@import "_alerts";
+@import "_toastify";
+
+@import "_general";
+@import "_inputs";
+@import "_overrides";
+
+:root {
+	--account-color-hover: #50b0f9;
+	--account-color: #78909c;
+	--blue-100: #50b0f9;
+	--blue-60: #96d0fb;
+	--blue-dark: #289ef8;
+	--brand-light: #52E8CD;
+	--button-text: #1cd0af;
+	--button-border: #1cd0af;
+	--gray-60: #78909c;
+	--gray-80: #3e4d53;
+	--gray-100: #1a1c21;
+	--green-100: #52e8cd;
+	--green-dark: #1cd0af;
+	--green-darkest: #17ad92;
+	--white-10: #f5fafe;
+	--white: #fff;
+
+	--app-color: #50b0f9;
+}

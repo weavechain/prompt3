@@ -1,0 +1,28 @@
+@import "../../../assets/styles/mixins";
+
+.root {
+	.title {
+		@include font-header2(var(--gray-100));
+		text-align: center;
+	}
+
+	.logoContainer {
+		@include flex();
+		margin-bottom: 16px;
+	}
+
+	.description {
+		@include font-body16(var(--gray-100));
+		text-align: center;
+	}
+
+	.buttons {
+		button {
+			min-width: 117px;
+		}
+
+		button:first-child {
+			margin-right: 8px;
+		}
+	}
+}

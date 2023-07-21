@@ -1,0 +1,55 @@
+@import "../../../assets/styles/app";
+
+.root {
+	div.sectionSubtitle {
+		@include font-header3($gray-60, 600);
+		margin-top: 10px;
+	}
+
+	.media {
+		@include flex-left();
+
+		.logo {
+			width: auto;
+			height: 100%;
+			max-width: 100px;
+			margin-right: 16px;
+		}
+
+		.didContainer {
+			margin-top: 4px;
+			margin-bottom: 4px;
+			@include flex-left();
+
+			.did {
+				@include font-header3($gray-60, 600);
+				margin-right: 4px;
+
+				span {
+					margin-right: 4px;
+				}
+			}
+
+			.text {
+				@include font-body16($gray-60);
+				word-wrap: break-word;
+
+				&:hover {
+					color: $blue-100;
+				}
+			}
+		}
+
+		.mediaInfo {
+			.title {
+				@include font-header3($gray-100, 600, "Poppins-Medium");
+			}
+			.key {
+				@include font-body16($gray-60);
+			}
+			.label {
+				@include font-body16($gray-100);
+			}
+		}
+	}
+}

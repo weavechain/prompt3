@@ -1,0 +1,101 @@
+// Primary, Primary Dark, Primary Link, Primary border, Secondary
+.btn {
+	height: 48px;
+	transition: background-color 0.5s, color 0.5s;
+	padding: 16px;
+
+	&.btn-icon {
+		padding: $padding-base-vertical;
+	}
+
+	&.btn-default {
+		width: 350px;
+		margin-bottom: 12px;
+	}
+
+	&.btn-small {
+		width: 200px;
+		margin-bottom: 12px;
+	}
+
+	&.btn-square {
+		width: 90px;
+		margin-bottom: 12px;
+	}
+
+	&.btn-primary {
+		@include btn-styles(var(--app-color), $white-color);
+
+		&:hover {
+			@include btn-styles(var(--app-color), $white-color);
+		}
+	}
+
+	/* &.btn-primary.dark {
+		@include btn-styles($green-100, $gray-80);
+		font-family: "Poppins-Medium";
+		box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+
+		&:hover {
+			@include btn-styles($green-dark, $gray-80);
+		}
+	} */
+
+	&.btn-primary.link {
+		@include btn-styles("transparent", var(--app-color));
+
+		&:hover {
+			@include btn-styles("transparent", var(--app-color));
+		}
+	}
+
+	&.btn-primary.btn-border {
+		@include btn-styles(var(--app-color), var(--app-color));
+		background-color: transparent;
+		border-width: 2px;
+
+		&:hover {
+			@include btn-styles(var(--app-color), $white-color);
+		}
+	}
+
+	/* &.btn-secondary {
+		@include btn-styles($gray-60, $white-color);
+		//box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.25);
+	}
+
+	&.btn-info {
+		@include btn-styles($blue-100, $white-color);
+
+		&:hover {
+			@include btn-styles(var(--blue-dark), $white-color);
+		}
+	} */
+
+	&.btn-info.btn-border {
+		@include border-btn-styles(var(--button-border), var(--button-text), $dark);
+	}
+
+	&.btn-danger {
+		@include btn-styles($danger, $white-color);
+
+		&:hover {
+			@include btn-styles($danger-dark, $white-color);
+		}
+	}
+
+	&.btn-danger.btn-border {
+		@include border-btn-styles($danger, $white-color, $white-color);
+	}
+
+	&.btn-link {
+		@include font-button-text($blue-100);
+
+		&:focus,
+		&:active,
+		&.active {
+			border-color: none;
+			box-shadow: none;
+		}
+	}
+}

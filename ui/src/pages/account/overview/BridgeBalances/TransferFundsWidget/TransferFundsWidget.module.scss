@@ -1,0 +1,79 @@
+@import "../../../../assets//styles/app.scss";
+
+.root {
+	margin-bottom: 16px;
+	.title {
+		@include font-header2($gray-100);
+		text-align: center;
+	}
+
+	.cardBody {
+		padding: 0 !important;
+
+		.amountContainer {
+			padding: 0 12px;
+
+			.description {
+				padding-top: 16px;
+				@include font-body16($gray-100);
+
+				span {
+					font-family: "Poppins-Medium";
+					font-weight: 600;
+				}
+			}
+
+			.amount {
+				@include font-body14($gray-100);
+			}
+
+			.content {
+				margin-top: 16px;
+			}
+		}
+
+		.tableContainer {
+			margin-top: 9px;
+			padding: 8px 12px;
+
+			background-color: $white-10;
+			border-top: solid 1px $gray-15;
+
+			.table {
+				margin-top: 0;
+				background-color: $white;
+			}
+		}
+
+		.buttons {
+			padding: 8px;
+
+			button {
+				width: 100%;
+			}
+		}
+	}
+
+	.inputInfo {
+		@include font-body12($gray-100, "Poppins-Medium");
+	}
+
+	.source {
+		@include font-header4($gray-100);
+	}
+
+	.inputContainer {
+		@include flex-left();
+
+		.max {
+			@include flex();
+			width: 73px;
+			height: 46px;
+			margin-left: 23px;
+
+			background: $gray-5;
+			border-radius: 100px;
+			cursor: pointer;
+		}
+	}
+}

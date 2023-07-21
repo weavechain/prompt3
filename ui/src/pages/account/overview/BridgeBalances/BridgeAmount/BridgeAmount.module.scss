@@ -1,0 +1,28 @@
+@import "../../../../../assets/styles/app";
+
+.root {
+	display: flex;
+	flex-direction: column;
+	flex: 1;
+	max-width: 60%;
+
+	.panel {
+		text-align: right;
+	}
+
+	.label {
+		@include font-body14($gray-60);
+
+		&.labelSelected {
+			@include font-label($blue-100, "Poppins", 600);
+		}
+	}
+
+	.amount {
+		@include font-body16($gray-100, "Poppins-Medium");
+
+		span {
+			@include font-body16($gray-100, "Poppins");
+		}
+	}
+}

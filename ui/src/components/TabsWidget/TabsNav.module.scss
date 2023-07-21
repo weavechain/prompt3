@@ -1,0 +1,44 @@
+@import "../../assets/styles/app";
+
+.root {
+	display: flex;
+	margin-bottom: 20px;
+	justify-content: center;
+	padding-left: 16px;
+	padding-right: 16px;
+
+	.tab {
+		display: flex;
+		border-bottom: solid 1px $gray-60;
+		padding: 8px 10px;
+		max-width: 270px;
+		flex: 1;
+
+		& {
+			@media (max-width: $screen-md-min) {
+				min-width: 160px;
+			}
+
+			@media (max-width: $screen-sm-min) {
+				min-width: 100px;
+			}
+		}
+
+		a {
+			@include font-text($gray-60, "Poppins", 600);
+			@include ellipsis();
+			width: 100%;
+			text-align: center;
+			letter-spacing: 0.56px;
+			text-decoration: none;
+		}
+
+		&.active {
+			border-bottom: solid 2px $gray-100;
+
+			a {
+				color: $gray-100;
+			}
+		}
+	}
+}

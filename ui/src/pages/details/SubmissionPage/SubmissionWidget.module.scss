@@ -1,0 +1,82 @@
+@import "../../../assets/styles/app";
+
+.root {
+	border-bottom: solid 1px $gray-20;
+	padding-bottom: 10px;
+
+	.inputContainer {
+		padding-left: 30px;
+		margin-bottom: 10px;
+
+		textarea {
+			@include font-text($gray-100, "Poppins", 400);
+			padding: 12px;
+			width: 100%;
+			min-width: 227px;
+			border-radius: 4px;
+			border: 1px solid $gray-20;
+
+			&::placeholder {
+				@include font-text($gray-60, "Poppins", 400);
+			}
+		}
+	}
+
+	.buttons {
+		@include flex-left();
+		flex-wrap: wrap;
+
+		button {
+			min-width: 237px;
+		}
+
+		button + button {
+			margin-left: 16px;
+		}
+	}
+
+	.terms {
+		@include flex-left();
+		margin-top: 8px;
+		margin-bottom: 8px;
+
+		.text {
+			@include font-text($gray-100, "Poppins", 400);
+			margin-left: 8px;
+			cursor: pointer;
+
+			a {
+				text-decoration: none;
+				color: $blue-100;
+				letter-spacing: 0.04em;
+			}
+		}
+	}
+
+	.textAreaInfo {
+		@include flex();
+		justify-content: space-between;
+		margin-bottom: 16px;
+
+		.markdown {
+			@include font-caption($gray-100, "Poppins", 400);
+
+			span {
+				font-weight: 700;
+			}
+		}
+
+		.charsCount {
+			@include font-caption($bad, "Poppins", 400);
+			font-style: italic;
+		}
+	}
+
+	@media (max-width: $screen-md-min) {
+		.buttons {
+			button {
+				margin-bottom: 8px;
+			}
+		}
+	}
+}

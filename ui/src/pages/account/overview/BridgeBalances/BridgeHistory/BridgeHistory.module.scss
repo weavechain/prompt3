@@ -1,0 +1,97 @@
+@import "../../../../../assets/styles/app";
+
+.root {
+	.sectionHeader {
+		display: flex;
+		height: 85px;
+		padding: 25px 59px 25px 60px;
+		justify-content: center;
+		align-items: center;
+		background-color: $white-10;
+	}
+
+	.content {
+		padding: 0 8px;
+		text-align: center;
+		display: flex;
+		flex-direction: column;
+		justify-content: space-between;
+
+		.chartContainer {
+			.titleContainer {
+				@include flex-left();
+				margin-bottom: 11px;
+
+				.title {
+					@include font-header3($gray-700, 600);
+					text-align: left;
+					flex: 1;
+				}
+			}
+
+			.chart {
+				position: relative;
+				width: 100%;
+				height: 300px;
+				margin-left: -16px;
+
+				.legend {
+					@include font-caption($gray-60);
+					transform: rotate(-90deg);
+					position: absolute;
+					left: 10px;
+					top: 50%;
+				}
+			}
+		}
+
+		.earningsSummary {
+			@include flex();
+			margin-top: 8px;
+			margin-bottom: 8px;
+
+			.earningsCell {
+				text-align: right;
+				background-color: $white-10;
+				flex: 1;
+				padding: 8px;
+
+				&:first-child {
+					margin-right: 8px;
+				}
+
+				.amount {
+					@include font-body16($gray-100, "Poppins-Medium");
+					margin-right: 4px;
+
+					&.earned {
+						color: $green-dark;
+					}
+				}
+
+				.currency {
+					@include font-body12($gray-100);
+				}
+
+				.label {
+					color: $gray-60;
+				}
+			}
+		}
+
+		.emptyImage {
+			margin-top: 2px;
+			max-height: 221px;
+		}
+
+		.button {
+			width: 100% !important;
+			margin: 16px 0;
+
+			span {
+				display: inline-block;
+				width: 90%;
+			}
+		}
+	}
+}

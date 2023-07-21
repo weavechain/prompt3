@@ -1,0 +1,69 @@
+@import "../../../assets/styles/app";
+
+.root {
+	.title {
+		@include font-header1($gray-100);
+		text-align: left;
+	}
+
+	.section {
+		.sectionTitle {
+			margin-bottom: 0;
+		}
+
+		.sectionInput {
+			padding-left: 30px;
+
+			input {
+				@include font-header5($gray-100, "Poppins", 400);
+				background-color: $white-10;
+				margin-top: 4px;
+			}
+
+			&.contract input {
+				@include font-header5($blue-100, "Poppins", 600);
+			}
+		}
+
+		.verified {
+			@include flex();
+			justify-content: space-between;
+			margin-bottom: 4px;
+		}
+	}
+
+	.section + .section {
+		margin-top: 16px;
+	}
+
+	.buttons {
+		width: 100%;
+		@include flex-left();
+		justify-content: space-between;
+
+		button {
+			@include flex();
+			padding: 0 16px;
+			width: 50%;
+
+			span {
+				flex: 1;
+				margin-left: auto;
+			}
+		}
+
+		button + button {
+			margin-left: 8px;
+		}
+	}
+
+	.issueText {
+		cursor: pointer;
+		width: 100%;
+		@include font-text($blue-100, "Poppins", 600);
+		text-align: center;
+		letter-spacing: 0.56px;
+		margin-top: 16px;
+		margin-bottom: 20px;
+	}
+}

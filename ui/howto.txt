@@ -1,0 +1,18 @@
+- build
+  docker build -t weave_prompt3:latest -f Dockerfile.prodssl .
+
+- deploy new version
+  docker tag weave_prompt3 gcr.io/weavechain/weave_prompt3:1.0
+  docker push gcr.io/weavechain/weave_prompt3:1.0
+  docker tag weave_prompt3 gcr.io/weavechain/weave_prompt3:latest
+  docker push gcr.io/weavechain/weave_prompt3:latest
+
+
+----
+
+  gcloud compute --project weavechain ssh --zone "us-central1-a" demo-websites
+
+  sudo docker pull gcr.io/weavechain/weave_prompt3:latest
+  sudo docker stop weave_prompt3
+  sudo docker rm weave_prompt3
+  sudo docker run -d --mount type=bind,src=/home/Admin/certs,dst=/etc/ssl/certs --mount type=bind,src=/home/Admin/logs/nginx,dst=/var/log/nginx --name weave_prompt3 -p 0.0.0.0:10016:443 gcr.io/weavechain/weave_prompt3:latest

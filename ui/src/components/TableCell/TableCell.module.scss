@@ -1,0 +1,37 @@
+@import "../../assets/styles/app";
+
+.root {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+	max-width: 100%;
+
+	@include font-text($gray-100, "Poppins", 400);
+
+	.highlighter {
+		//white-space: nowrap;
+		overflow: hidden;
+		text-overflow: ellipsis;
+		max-width: 100%;
+	}
+
+	span {
+		@include ellipsis();
+		max-width: 100%;
+	}
+
+	.icon {
+		@include flex();
+		width: 20px;
+		height: 20px;
+		margin-left: 8px;
+		margin-bottom: 2px;
+	}
+
+	&.amount {
+		display: inline-flex;
+		width: 100%;
+		padding-right: 40px;
+		justify-content: flex-end;
+	}
+}

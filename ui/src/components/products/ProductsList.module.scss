@@ -1,0 +1,27 @@
+@import "../../assets/styles/app";
+
+.root {
+	display: grid;
+	gap: 17px;
+	grid-template-columns: repeat(3, 1fr);
+	justify-content: space-between;
+	width: 100%;
+
+	&.one {
+		grid-template-columns: repeat(1, 1fr);
+	}
+
+	&.two {
+		grid-template-columns: repeat(3, 1fr);
+	}
+
+	@media (max-width: $screen-lg-min) {
+		grid-template-columns: repeat(2, 1fr);
+		justify-content: center;
+		gap: 9px;
+	}
+
+	@media (max-width: $screen-sm-min) {
+		grid-template-columns: repeat(1, 1fr);
+	}
+}

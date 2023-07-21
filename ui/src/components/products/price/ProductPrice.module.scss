@@ -1,0 +1,17 @@
+@import "../../../assets/styles/app";
+
+.root {
+	@include font-body16(var(gray-100));
+	justify-content: flex-start;
+
+	p {
+		display: inline-block;
+	}
+
+	.oldPrice {
+		@include font-header4($gray-60);
+		text-decoration: line-through;
+		display: inline-block;
+		margin-right: 4px;
+	}
+}

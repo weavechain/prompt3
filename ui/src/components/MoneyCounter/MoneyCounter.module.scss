@@ -1,0 +1,21 @@
+@import "../../assets/styles/app";
+
+.root {
+	position: relative;
+	height: 34px;
+	width: 100%;
+	padding-right: 20%;
+	display: flex;
+	align-items: center;
+	justify-content: flex-end;
+	min-width: 100px;
+
+	.amount {
+		@include font-header4($green-100);
+		margin-left: auto;
+	}
+
+	.noEarnings {
+		@include font-header4($gray-100);
+	}
+}

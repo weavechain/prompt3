@@ -1,0 +1,56 @@
+@import "../../../../assets/styles/app";
+
+.root {
+	overflow: hidden;
+	min-height: 600px;
+
+	.sectionHeader {
+		display: flex;
+		height: 85px;
+		padding: 25px 59px 25px 60px;
+		justify-content: center;
+		align-items: center;
+		background-color: $white-10;
+	}
+
+	@media (max-width: "1024px") {
+		margin-top: 16px;
+	}
+
+	.cardBody {
+		padding: 0 !important;
+	}
+
+	.content {
+		padding: 0 16px;
+		text-align: center;
+
+		.section {
+			@include flex-left();
+			margin-bottom: 8px;
+		}
+
+		.button {
+			@include flex-left();
+			width: 100% !important;
+			padding: 0 2px;
+			margin: 16px 0;
+
+			.buttonIcon {
+				@include flex();
+				width: 40px;
+				height: 40px;
+				margin-left: 48px;
+			}
+
+			.buttonText {
+				flex: 1;
+				text-align: right;
+				max-width: 60%;
+
+				p {
+				}
+			}
+		}
+	}
+}

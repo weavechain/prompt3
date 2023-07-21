@@ -1,0 +1,29 @@
+@import "../../assets/styles/app";
+
+.root {
+	position: relative;
+
+	.input {
+		border: solid 1px $gray-20;
+
+		&::placeholder {
+			@include font-text($gray-40, "Poppins", 400);
+		}
+	}
+
+	.label {
+		@include font-body12($gray-60);
+		font-style: italic;
+		margin-top: 2px;
+
+		span {
+			display: inline-block;
+			font-family: "Poppins-Bold";
+		}
+	}
+
+	.errorMessage {
+		@include font-body12($danger);
+		margin-top: 4px;
+	}
+}

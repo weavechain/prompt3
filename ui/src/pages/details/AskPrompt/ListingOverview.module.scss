@@ -1,0 +1,45 @@
+@import "../../../assets/styles/app";
+
+.root {
+	position: relative;
+	width: 100%;
+
+	.section {
+		position: relative;
+		margin-bottom: 20px;
+
+		p.sectionTitle {
+			margin-left: 0;
+		}
+
+		div.sectionSubtitle {
+			@include font-header3($gray-60, 500, "Poppins-Medium");
+			letter-spacing: 0;
+			justify-content: flex-start;
+			margin-top: 10px;
+
+			span {
+				margin-right: 4px;
+			}
+
+			&.bubble {
+				display: inline-flex;
+				align-items: center;
+			}
+		}
+
+		.did {
+			@include font-body16($gray-100);
+			word-wrap: break-word;
+		}
+
+		.text {
+			@include font-body16($gray-100);
+			word-wrap: break-word;
+		}
+	}
+
+	.disclaimer {
+		margin-top: 16px;
+	}
+}

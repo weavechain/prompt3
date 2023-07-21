@@ -1,0 +1,14 @@
+@import "../../../../assets/styles/app";
+
+.root {
+	position: relative;
+	width: 100%;
+
+	.section {
+		margin-bottom: 20px;
+
+		p.sectionTitle {
+			margin-left: 0;
+		}
+	}
+}

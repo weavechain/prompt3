@@ -1,0 +1,101 @@
+@import "../../../assets/styles/app";
+
+.root {
+	$opacity: 0.6;
+
+	position: relative;
+	height: 235px;
+	border: 1px solid $gray-20;
+	border-radius: 4px;
+	padding: 16px;
+	//min-width: 27vw;
+	max-width: 350px;
+
+	display: flex;
+	flex-direction: column;
+	transition-duration: 0.2s;
+	padding-bottom: 40px;
+	opacity: $opacity;
+
+	.logoContainer {
+		@include flex();
+		flex: 1;
+		min-height: 125px;
+		background-size: contain;
+		background-position: center;
+		background-repeat: no-repeat;
+
+		.logoName {
+			@include font-header2(var(--blue-100));
+			@include ellipsis();
+		}
+	}
+
+	.title {
+		@include font-header3($gray-100, 600);
+		@include ellipsis();
+
+		span {
+			display: unset;
+		}
+	}
+
+	.description {
+		@include font-body14($gray-60);
+		@include ellipsis(2);
+
+		span {
+			display: unset;
+		}
+	}
+
+	.details {
+		position: absolute;
+		left: 16px;
+		right: 16px;
+		bottom: 8px;
+
+		@include flex();
+		justify-content: space-between;
+
+		.license_req {
+			p {
+				display: inline-block;
+			}
+
+			@include flex();
+			@include font-header5($gray-60, "Poppins");
+		}
+	}
+
+	&:hover,
+	&.active {
+		text-decoration: none;
+		box-shadow: 0px 6px 6px rgba(0, 0, 0, 0.25);
+		border: 1px solid var(--blue-100);
+		border-radius: 4px;
+
+		opacity: 1;
+
+
+		.license_req {
+			color: $gray-100;
+			svg path {
+				stroke: $gray-100;
+			}
+		}
+
+		.title,
+		.description {
+			opacity: 1;
+		}
+
+		.logoContainer {
+			opacity: 1;
+
+			.logoName {
+				opacity: 1;
+			}
+		}
+	}
+}

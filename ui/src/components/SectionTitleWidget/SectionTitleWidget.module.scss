@@ -1,0 +1,20 @@
+@import "../../assets/styles/app";
+
+.root {
+	@include flex-left();
+	margin-bottom: 8px;
+
+	.media {
+		@include flex();
+	}
+	
+	.title {
+		@include font-header2($gray-100);
+		margin-left: 8px;
+	}
+
+	.subTitle {
+		@include font-body16($gray-100);
+		margin-left: 11px;
+	}
+}

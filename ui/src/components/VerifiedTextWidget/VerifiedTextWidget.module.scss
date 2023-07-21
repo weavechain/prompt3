@@ -1,0 +1,11 @@
+@import "../../assets/styles/app";
+
+.root {
+	@include font-header5($green-darkest, "Poppins-Medium", 400);
+	background-color: #dcfaf5;
+	padding: 6px;
+
+	img {
+		margin-right: 4px;
+	}
+}

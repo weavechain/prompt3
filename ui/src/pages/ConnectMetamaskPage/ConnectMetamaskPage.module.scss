@@ -1,0 +1,44 @@
+@import "../../assets/styles/app";
+
+.root {
+	$margin: 20%;
+	height: 100vh;
+
+	.content {
+		@include flex-column();
+		margin: 40px $margin 0;
+	}
+
+	.title {
+		@include font-header1(var(--app-color));
+		text-align: center;
+	}
+
+	.description {
+		@include font-body16(var(--gray-100));
+		margin-bottom: 16px;
+		text-align: center;
+		word-wrap: break-word;
+		white-space: pre-wrap;
+	}
+
+	@media (max-width: $screen-md-min) {
+		.header {
+			padding: 81px 40px 20px;
+		}
+
+		.content {
+			margin: 20px 40px;
+		}
+	}
+
+	@media (max-width: $screen-sm-min) {
+		.header {
+			padding: 81px 16px 16px;
+		}
+
+		.content {
+			margin: 20px 16px;
+		}
+	}
+}

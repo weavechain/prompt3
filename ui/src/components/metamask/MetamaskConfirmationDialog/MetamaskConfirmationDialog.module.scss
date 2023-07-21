@@ -1,0 +1,41 @@
+@import "../../../assets/styles/app";
+
+.root {
+	.title {
+		@include font-header2($gray-100);
+		text-align: center;
+
+		&.dark {
+			color: $white-10;
+		}
+	}
+
+	.iconContainer {
+		@include flex();
+		margin-top: 16px;
+		margin-bottom: 16px;
+	}
+
+	.description {
+		@include font-body16($gray-100);
+		text-align: center;
+
+		&.dark {
+			color: $white-10;
+		}
+	}
+
+	.download {
+		@include flex();
+		width: 100%;
+		height: 70px;
+
+		p {
+			@include font-text($gray-60);
+
+			a {
+				color: var(--green-dark);
+			}
+		}
+	}
+}

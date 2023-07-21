@@ -1,0 +1,29 @@
+@import "../../../../../assets/styles/app";
+
+.root {
+	@include flex();
+	margin-left: 4px;
+	width: 40px;
+	height: 47px;
+
+	&.floatRight {
+		margin-left: 48px;
+	}
+
+	.icon {
+		cursor: pointer;
+
+		&.selectedIcon {
+			background-color: $blue-100;
+			border-radius: 4px;
+
+			svg path {
+				stroke: $white;
+			}
+		}
+
+		&:nth-child(2) {
+			margin-left: 4px;
+		}
+	}
+}

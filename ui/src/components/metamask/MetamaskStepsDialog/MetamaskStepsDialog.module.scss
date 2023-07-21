@@ -1,0 +1,77 @@
+@import "../../../assets/styles/app";
+
+.root {
+	.title {
+		@include font-header2($gray-100);
+		text-align: center;
+	}
+
+	.current {
+		@include flex();
+
+		img {
+			max-width: 110px;
+			max-height: 110px;
+		}
+	}
+
+	.footer {
+		padding: 0 28px;
+		width: 100%;
+
+		.steps {
+			@include flex-left();
+			justify-content: space-between;
+			margin-top: 24px;
+
+			.step {
+				@include flex-column();
+				position: relative;
+				background-color: white;
+				flex: 1;
+				cursor: pointer;
+
+				.name {
+					@include font-header5($gray-60, "Poppins");
+				}
+
+				.link {
+					width: 200px;
+					max-width: 100%;
+					height: 1px;
+					position: absolute;
+					right: 50%;
+					top: 9px;
+					border-top: solid 2px $gray-20;
+				}
+
+				img {
+					z-index: 100;
+				}
+
+				&:first-child {
+					.link {
+						display: none;
+					}
+				}
+
+				&.active {
+					.name {
+						color: var(--lsp-blue);
+					}
+
+					.link {
+						border-top-color: var(--lsp-blue);
+					}
+				}
+			}
+		}
+
+		.description {
+			@include font-body16($gray-100);
+			text-align: center;
+			margin-top: 16px;
+			margin-bottom: 16px;
+		}
+	}
+}

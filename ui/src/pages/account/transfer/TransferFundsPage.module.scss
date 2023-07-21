@@ -1,0 +1,21 @@
+@import "../../../assets/styles/app";
+
+.root {
+	@include page-layout();
+
+	.content {
+		@include page-content(flex-start);
+
+		.searchContainer {
+			@include flex-left();
+			justify-content: space-between;
+			margin-bottom: 23px;
+			width: 100%;
+
+			.title {
+				@include font-header2($gray-100, "Poppins", 400);
+				text-align: left;
+			}
+		}
+	}
+}

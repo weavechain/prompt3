@@ -1,0 +1,102 @@
+@import "../../assets/styles/app";
+
+.root {
+	$padding: min(10%, 165px);
+
+	@include flex();
+	justify-content: space-between;
+
+	position: fixed;
+	left: 0;
+	top: 0;
+	right: 0;
+	z-index: 1000;
+	height: 105px;
+	width: 100%;
+	background: $white-10;
+
+	.backButton {
+		position: absolute;
+		left: $padding;
+		@include flex();
+		width: 162px;
+
+		span {
+			flex: 1;
+			text-align: center;
+		}
+	}
+
+	.avatarContainer {
+		@include flex-column();
+		align-items: flex-end;
+
+		.icons {
+			@include flex();
+			height: 100%;
+			max-width: 80px;
+			margin-bottom: 8px;
+
+			.icon {
+				@include flex();
+				cursor: pointer;
+				//width: 40px;
+				//height: 40px;
+				//border-radius: 4px;
+				//border: solid 4px $blue-100;
+			}
+
+			.icon + .icon {
+				margin-left: 8px;
+			}
+
+			.fillIcon {
+				cursor: pointer;
+			}
+		}
+
+		.balance {
+			@include font-header3($blue-100);
+			font-weight: 600;
+			letter-spacing: 0.64px;
+
+			span {
+				font-size: 12px;
+				color: $gray-100;
+				margin-left: 4px;
+				letter-spacing: 0.48px;
+			}
+		}
+	}
+
+	.heading {
+		flex: 1;
+		padding: 0 16px;
+
+		.title {
+			@include font-header2($gray-100, "Poppins-Medium", 700);
+			line-height: normal;
+			text-align: center;
+		}
+	}
+
+	& {
+		padding: 0px $padding;
+
+		@media (max-width: $screen-md-min) {
+			padding: 0 40px;
+
+			.backButton {
+				left: 40px;
+			}
+		}
+
+		@media (max-width: $screen-sm-min) {
+			padding: 0 16px;
+
+			.backButton {
+				left: 16px;
+			}
+		}
+	}
+}

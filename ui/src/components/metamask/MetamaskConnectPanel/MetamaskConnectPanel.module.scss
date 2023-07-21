@@ -1,0 +1,44 @@
+@import "../../../assets/styles/app";
+
+.root {
+	border: 1px solid #e8e8e9;
+	border-radius: 4px;
+	margin-top: 47px;
+	width: 348px;
+
+	.foxContainer {
+		@include flex();
+		padding: 0 14px;
+		height: 80px;
+		cursor: pointer;
+
+		.foxRighPanel {
+			margin-left: 20px;
+			margin-right: 20px;
+			flex: 1;
+
+			.meta {
+				@include font-header4($gray-100);
+			}
+
+			.subTitle {
+				@include font-body14($gray-60);
+			}
+		}
+	}
+
+	.download {
+		@include flex();
+		background-color: $white-10;
+		height: 70px;
+
+		p {
+			@include font-text($gray-80);
+
+			a {
+				color: var(--lsp-blue);
+				letter-spacing: 0.04em;
+			}
+		}
+	}
+}

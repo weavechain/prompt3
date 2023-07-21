@@ -1,0 +1,246 @@
+@import "../../../assets/styles/app";
+
+.root {
+	position: relative;
+	overflow: visible;
+	margin-top: 12px;
+	width: 100%;
+
+	.toolbar {
+		@include flex-left();
+		width: 100%;
+		padding-left: 7px;
+		padding-right: 15px;
+		margin-bottom: 8px;
+
+		.search {
+			margin-right: 0;
+			width: auto;
+			flex: 1;
+		}
+	}
+
+	.status {
+		@include font-text($gray-100, "Poppins", 400);
+		//font-style: italic;
+		text-transform: capitalize;
+
+		&.accepted {
+			color: $green-100;
+		}
+
+		&.rejected {
+			color: $bad;
+		}
+	}
+
+	.tableWithHeader {
+		padding-top: 60px;
+	}
+
+	.weavetable {
+		height: 100%;
+
+		.dataRolesCell {
+			width: 100%;
+		}
+
+		.rightTh {
+			text-align: right !important;
+			padding-right: 40px;
+		}
+
+		.centerTh {
+			text-align: center !important;
+		}
+
+		th {
+			@include font-header4($gray-70);
+			@include user-select();
+			border: none;
+
+			.th {
+				@include font-header4($gray-70);
+				display: inline-block;
+
+				span.thin {
+					margin-left: 6px;
+					font-family: "Poppins-Light";
+					font-weight: 400;
+				}
+			}
+		}
+
+		.label {
+			@include font-header3($gray-100, "Poppins-Medium");
+
+			span {
+				@include font-caption($danger, "Poppins");
+
+				word-break: break-all;
+				white-space: break-spaces;
+			}
+		}
+
+		td,
+		td > * {
+			overflow: visible;
+		}
+
+		td {
+			@include font-body14($gray-100);
+			vertical-align: middle;
+			border: none;
+
+			.actions {
+				@include flex-left();
+
+				.editIcon,
+				.gearIcon,
+				.pauseIcon,
+				.pencil {
+					margin-right: 16px;
+					width: 24px;
+					height: 24px;
+					@include flex();
+				}
+
+				.pencil:hover {
+					svg path {
+						stroke: $blue-100;
+					}
+				}
+
+				.deleteIcon:hover {
+					svg path {
+						fill: $danger;
+					}
+				}
+			}
+		}
+
+		.rightsCell {
+			display: flex;
+			flex-direction: row;
+		}
+
+		.centerCell {
+			display: flex;
+			justify-content: center;
+		}
+	}
+
+	&.disabled {
+		th,
+		td {
+			color: $gray-60;
+		}
+	}
+
+	.dangerRow {
+		background-color: $warning-bg;
+	}
+
+	.selectedRow {
+		background-color: $white-10;
+
+		td,
+		td > * {
+			color: $blue-100;
+		}
+
+		.actions {
+			.editIcon svg path {
+				stroke: $blue-100;
+			}
+		}
+	}
+
+	.emptyDescription {
+		color: $gray-40;
+	}
+
+	.media {
+		@include flex-left();
+
+		.mediaIcon {
+			margin-right: 10px;
+			width: 32px;
+			height: 32px;
+		}
+	}
+
+	.confirmedRow {
+		&:hover {
+			background-color: $white-10;
+		}
+
+		td.highlight {
+			cursor: pointer;
+
+			&:hover {
+				@include highlight-table-cell($blue-100);
+
+				& > a {
+					color: $blue-100;
+				}
+			}
+
+			span:hover,
+			div:hover {
+				@include highlight-table-cell($blue-100);
+			}
+
+			& > a {
+				cursor: pointer;
+				color: $gray-100;
+				font-weight: 600;
+				text-decoration: none;
+			}
+		}
+	}
+
+	.createdRow {
+		&:hover {
+			background-color: $warning-bg;
+		}
+
+		td.highlight {
+			cursor: pointer;
+
+			&:hover,
+			span:hover {
+				@include highlight-table-cell($black);
+			}
+		}
+	}
+
+	.flashRow {
+		background-color: $white-10;
+	}
+
+	.view {
+		cursor: pointer;
+		color: $blue-100;
+		font-weight: 600;
+		text-decoration: none;
+	}
+
+	.pagination {
+		display: flex;
+		align-items: center;
+		justify-content: flex-end;
+		width: 100%;
+		padding: 0 30px;
+		height: 40px;
+
+		ul {
+			li:last-child {
+				a {
+					border-top-right-radius: 0px;
+					border-bottom-right-radius: 0px;
+				}
+			}
+		}
+	}
+}
