@@ -288,3 +288,21 @@ export const weaveReadLineage = async (persona) => {
    
     return await nodeApi.read(session, AppConfig.SCOPE, table, filter, WeaveHelper.Options.READ_DEFAULT_NO_CHAIN);
 }
+
+export const weaveUserStatistics = async (scope) => {
+    const nodeApi = await getNodeApi()
+    if (!nodeApi) {
+        console.log('Error creating node api')
+        return 'Error creating node api'
+    }
+    const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
+
+    // eslint-disable-next-line no-unused-vars
+    const { pub } = getOrCreateKey()
+
+    const params = {
+        scope
+    }
+    let options = new WeaveHelper.Options.ComputeOptions(true, 300, 0, null, params);
+    return await nodeApi.compute(session, "gcr.io/weavechain/user_statistics", options)
+}

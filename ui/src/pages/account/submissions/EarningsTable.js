@@ -14,6 +14,9 @@ import TrashIcon from "../../../components/icons/TrashIcon";
 import SectionTitleWidget from "../../../components/SectionTitleWidget/SectionTitleWidget";
 import SubmitionStatus from "../../../helpers/models/SubmitionStatus";
 import StopLicenseDialog from "../../../components/dialogs/StopLicenseDialog/StopLicenseDialog";
+import { useDispatch, useSelector } from "react-redux";
+import { userStatistics } from "../../../_redux/actions/content";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 
 const PAGE_SIZE = AppConfig.PAGE_SIZE;
 

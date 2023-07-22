@@ -8,7 +8,8 @@ import {
     weaveReadContent,
     weaveApprovePrompts,
     writeLineage,
-    weaveReadLineage
+    weaveReadLineage,
+    weaveUserStatistics
 } from "../../helpers/weave"
 import keys from "../../weaveapi/keys"
 import { ActionTypes } from "../constants"
@@ -108,6 +109,24 @@ export const readLineage = (persona) => {
                 if (!response.data || response.res === 'err') {
                     console.log('Error during weaveReadLineage(): ' + JSON.stringify(response))
                     resolve('error')
+                    return;
+                }
+
+                dispatch({type: ActionTypes.CONTENT_WRITTEN})
+                resolve(response.data)
+            })
+        })
+    }
+}
+
+export const userStatistics = () => {
+    return dispatch => {
+        return new Promise(resolve => {
+            weaveUserStatistics(AppConfig.SCOPE).then(response => {
+                console.log(response)
+                if (!response.data || response.res === 'err') {
+                    console.log('Error during user statistics refresh: ' + JSON.stringify(response))
+                    resolve(response.message)
                     return;
                 }
 
