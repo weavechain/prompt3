@@ -122,22 +122,6 @@ export default function InclusionResponse({ persona, response }) {
 					}
 				/>
 
-				<CopyWidget
-					text={smartContractUrl}
-					inputStyle={cx(s.sectionInput, s.contract)}
-					title={
-						<SectionTitleWidget
-							rootClassName={s.sectionTitle}
-							title="Smart Contract"
-						/>
-					}
-					customIcon={
-						<div onClick={() => window.open(smartContractUrl, "_blank")}>
-							<ShareIcon width={25} height={25} />
-						</div>
-					}
-				/>
-
 				<VerifiedTextWidget
 					text={
 						"Merkle Leaf was validated to " + (response.result?.match ? "" : "NOT ") + "exist within Merkle Tree at " +

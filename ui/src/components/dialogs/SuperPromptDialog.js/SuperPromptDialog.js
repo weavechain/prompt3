@@ -9,8 +9,10 @@ import ContractIcon from "../../icons/ContractIcon";
 import InfoBubble from "../../InfoBubble/InfoBubble";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { useSelector } from "react-redux";
+import ShareIcon from "../../icons/ShareIcon";
+import AppConfig from "../../../AppConfig";
 
-export default function SuperPromptDialog({ data = {}, close = () => {} }) {
+export default function SuperPromptDialog({ persona, data = {}, close = () => {} }) {
 	const validationDate = data.last_updated || now();
 
 	const match = data.match;
@@ -27,6 +29,8 @@ export default function SuperPromptDialog({ data = {}, close = () => {} }) {
 	const signatureHash =
 		data.signatureHash ||
 		"KW3AkT5yH3Rx6Y86xKmXXwq5XSNAaaqcXewxseQ4mVCam5WGpiepuT2HHMwydyUKyygswfhy6J5Vv6q8sfCAWch";
+
+	const smartContractUrl = AppConfig.chainExplorer + AppConfig.rootHashContracts[persona];
 
 	// ------------------------------------- METHODS -------------------------------------
 	const downloadTree = () => {
@@ -88,7 +92,10 @@ export default function SuperPromptDialog({ data = {}, close = () => {} }) {
 						</div>
 						<div className={s.hash}>
 							<p className={s.text}>{inputPromptHash}</p>
+
+						}<span onClick={() => window.open(smartContractUrl, "_blank")}>
 							<ContractIcon />
+						</span>
 						</div>
 					</div>
 
@@ -103,7 +110,9 @@ export default function SuperPromptDialog({ data = {}, close = () => {} }) {
 						</div>
 						<div className={s.hash}>
 							<p className={s.text}>{superPromptCreationHash}</p>
-							<ContractIcon />
+							<span onClick={() => window.open(smartContractUrl, "_blank")}>
+								<ContractIcon />
+							</span>
 						</div>
 					</div>
 
@@ -118,7 +127,9 @@ export default function SuperPromptDialog({ data = {}, close = () => {} }) {
 						</div>
 						<div className={s.hash}>
 							<p className={s.text}>{superPromptHash}</p>
-							<ContractIcon />
+							<span onClick={() => window.open(smartContractUrl, "_blank")}>
+								<ContractIcon />
+							</span>
 						</div>
 					</div>
 
@@ -133,7 +144,9 @@ export default function SuperPromptDialog({ data = {}, close = () => {} }) {
 						</div>
 						<div className={s.hash}>
 							<p className={s.text}>{superPromptHash}</p>
-							<ContractIcon />
+							<span onClick={() => window.open(smartContractUrl, "_blank")}>
+								<ContractIcon />
+							</span>
 						</div>
 					</div>
 

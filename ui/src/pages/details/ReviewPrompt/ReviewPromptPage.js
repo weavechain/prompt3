@@ -116,7 +116,7 @@ export default function ReviewPromptPage() {
 			</AppHeader>
 
 			{showSuperDialog ? (
-				<SuperPromptDialog close={() => setShowSuperDialog(false)} />
+				<SuperPromptDialog persona={product.persona} close={() => setShowSuperDialog(false)} />
 			) : null}
 
 			<div className={s.content}>

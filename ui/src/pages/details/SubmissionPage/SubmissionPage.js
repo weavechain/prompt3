@@ -16,6 +16,7 @@ import ListingOverviewPrice from "../common/ListingOverviewPrice";
 import RelatedListings from "../common/related/RelatedListings";
 import TabsHelper from "../../../helpers/TabsHelper";
 import ContractIcon from "../../../components/icons/ContractIcon";
+import AppConfig from "../../../AppConfig";
 
 export default function SubmissionPage() {
 	const { id } = useParams() || {};
@@ -33,6 +34,8 @@ export default function SubmissionPage() {
 	const relatedProducts = products.filter((p) => p.id !== id);
 
 	const blockchain = product.blockchain;
+
+	const smartContractUrl = AppConfig.chainExplorer + AppConfig.rootHashContracts[product?.persona];
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -126,7 +129,9 @@ export default function SubmissionPage() {
 							</div>
 							<div className={s.hash}>
 								<p className={s.text}>{product.super_prompt_creation_hash}</p>
-								<ContractIcon />
+								<span onClick={() => window.open(smartContractUrl, "_blank")}>
+									<ContractIcon />
+								</span>
 							</div>
 						</>
 					)}

@@ -14,6 +14,7 @@ import VerifiedTextWidget from "../../../components/VerifiedTextWidget/VerifiedT
 import ContractIcon from "../../../components/icons/ContractIcon";
 import InclusionSubmitWidget from "./InclusionSubmitWidget";
 import { readLineage } from "../../../_redux/actions/content";
+import AppConfig from "../../../AppConfig";
 
 export default function CheckInclusionPage() {
 	const { id } = useParams() || {};
@@ -57,6 +58,8 @@ export default function CheckInclusionPage() {
 			} catch (e) {}
 		})
 	}, [])
+
+	const smartContractUrl = AppConfig.chainExplorer + AppConfig.rootHashContracts[product?.persona];
 
 	// ------------------------------------- METHODS -------------------------------------
 	return product ? (
@@ -104,7 +107,9 @@ export default function CheckInclusionPage() {
 									}
 								/>
 							</div>
-							<p className={s.text}>{rootHash}</p>
+							<p className={s.text}>{rootHash} <span onClick={() => window.open(smartContractUrl, "_blank")}>
+								<ContractIcon />
+							</span></p>
 						</>
 					)}
 
@@ -120,7 +125,9 @@ export default function CheckInclusionPage() {
 							</div>
 							<div className={s.hash}>
 								<p className={s.text}>{inputHash}</p>
-								<ContractIcon />
+								<span onClick={() => window.open(smartContractUrl, "_blank")}>
+									<ContractIcon />
+								</span>
 							</div>
 						</>
 					)}
@@ -137,7 +144,9 @@ export default function CheckInclusionPage() {
 							</div>
 							<div className={s.hash}>
 								<p className={s.text}>{computeHash}</p>
-								<ContractIcon />
+								<span onClick={() => window.open(smartContractUrl, "_blank")}>
+									<ContractIcon />
+								</span>
 							</div>
 						</>
 					)}
@@ -154,7 +163,9 @@ export default function CheckInclusionPage() {
 							</div>
 							<div className={s.hash}>
 								<p className={s.text}>{outputHash}</p>
-								<ContractIcon />
+								<span onClick={() => window.open(smartContractUrl, "_blank")}>
+									<ContractIcon />
+								</span>
 							</div>
 						</>
 					)}

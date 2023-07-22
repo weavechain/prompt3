@@ -8,14 +8,17 @@ import HashIcon from "../../../components/icons/HashIcon";
 import ContractIcon from "../../../components/icons/ContractIcon";
 import ResponseIcon from "../../../components/icons/ResponseIcon";
 import LockIcon from "../../../components/icons/LockIcon";
+import AppConfig from "../../../AppConfig";
 
-export default function ResponseHashDialog({ data = {}, close = () => {} }) {
+export default function ResponseHashDialog({ persona, data = {}, close = () => {} }) {
 	const {
 		reponseHash = "36UaD8YjacqVUxbbCoAssrkruugmmAWjC7sQLvKEJcNC",
 		questionHash = "6LfKoQQMqb8fYgA1PwBPKMhFaJ59Fn3DWw6qTRri4zjN",
 		computeHash = "4M5CUV9uRi6EE42YEKxYyPkd35Kf1CMfUWig1VUMfnWu",
 		signature = "KW3AkT5yH3Rx6Y86xKmXXwq5XSNAaaqcXewxseQ4mVCam5WGpiepuT2HHMwydyUKyy...",
 	} = data;
+
+	const smartContractUrl = AppConfig.chainExplorer + AppConfig.rootHashContracts[persona];
 
 	return (
 		<Modal centered isOpen={true} className={s.root} toggle={close} backdrop>
@@ -34,7 +37,9 @@ export default function ResponseHashDialog({ data = {}, close = () => {} }) {
 								rootClassName={s.sectionTitle}
 								title="Response Hash"
 								icon={<HashIcon />}
-								suffix={<ContractIcon />}
+								suffix={<span onClick={() => window.open(smartContractUrl, "_blank")}>
+									<ContractIcon />
+								</span>}
 							/>
 						}
 					/>
@@ -48,7 +53,9 @@ export default function ResponseHashDialog({ data = {}, close = () => {} }) {
 								rootClassName={s.sectionTitle}
 								title="Question Hash"
 								icon={<HashIcon />}
-								suffix={<ContractIcon />}
+								suffix={<span onClick={() => window.open(smartContractUrl, "_blank")}>
+									<ContractIcon />
+								</span>}
 							/>
 						}
 					/>

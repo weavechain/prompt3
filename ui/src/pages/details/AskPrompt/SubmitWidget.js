@@ -52,7 +52,7 @@ export default function SubmitWidget({ product }) {
 	return (
 		<div className={s.root}>
 			{showResponseDialog ? (
-				<ResponseHashDialog close={() => setShowResponseDialog(false)} />
+				<ResponseHashDialog persona={persona} close={() => setShowResponseDialog(false)} />
 			) : null}
 
 			<div className={s.content}>
