@@ -1,0 +1,7 @@
+version: '3'
+services:
+  approve_prompts:
+    build:
+      context: .
+      dockerfile: approve_prompts/Dockerfile
+    image: approve_prompts
