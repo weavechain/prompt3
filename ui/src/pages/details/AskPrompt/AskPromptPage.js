@@ -27,7 +27,7 @@ export default function AskPromptPage() {
 		<div className={s.root}>
 			<AppHeader title={product.title}>
 				<TabsWidget
-					tabs={TabsHelper.getTabs({ id, tab: "Ask Persona", account })}
+					tabs={TabsHelper.getTabs({ id, tab: "Ask Assistant", account })}
 				/>
 			</AppHeader>
 

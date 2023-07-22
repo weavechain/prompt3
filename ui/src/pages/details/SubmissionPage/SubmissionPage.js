@@ -13,9 +13,9 @@ import InfoBubble from "../../../components/InfoBubble/InfoBubble";
 
 import ReviewSubmitWidget from "./SubmissionWidget";
 import ListingOverviewPrice from "../common/ListingOverviewPrice";
-import WeaveDetails from "../common/WeaveDetails";
 import RelatedListings from "../common/related/RelatedListings";
 import TabsHelper from "../../../helpers/TabsHelper";
+import ContractIcon from "../../../components/icons/ContractIcon";
 
 export default function SubmissionPage() {
 	const { id } = useParams() || {};
@@ -55,7 +55,7 @@ export default function SubmissionPage() {
 					{/* DESC */}
 					{product.description && (
 						<>
-							<div className={s.sectionSubtitle}>About {product.title}:</div>
+							<div className={s.sectionSubtitle}>About Assistant:</div>
 							<p
 								className={s.text}
 								dangerouslySetInnerHTML={{
@@ -66,15 +66,30 @@ export default function SubmissionPage() {
 					)}
 
 					{/* PRICE */}
-					<ListingOverviewPrice product={product} />
+					<ListingOverviewPrice
+						product={product}
+						title="License Fees"
+						suffix="per generative usage training"
+					/>
 
 					{/* License Requirements */}
 					{product.license_req && (
 						<>
-							<div className={s.sectionSubtitle}>License Requirements:</div>
-							<p className={s.text}>{`>${product.license_req} Words`}</p>
+							<div className={s.sectionSubtitle}>
+								<span>License Requirements:</span>
+								<InfoBubble
+									tooltipText={
+										"Payments for this dataset require tokens on this blockchain."
+									}
+								/>
+							</div>
 
-							<p className={s.text}>{product.license_description}</p>
+							<p
+								className={s.text}
+								dangerouslySetInnerHTML={{
+									__html: DOMPurify.sanitize(product.license_description),
+								}}
+							/>
 						</>
 					)}
 
@@ -93,19 +108,35 @@ export default function SubmissionPage() {
 						</>
 					)}
 
-					{/* DATABASE DID */}
-					{product.did && (
-						<CopyTextWidget
-							title="DID:"
-							text={product.did}
-							titleStyle={s.sectionSubtitle}
-							className={s.did}
-						/>
+					{product.super_prompt_creation_hash && (
+						<>
+							<div className={s.sectionSubtitle}>
+								<span>Super Prompt Creation Hash:</span>
+								<InfoBubble
+									tooltipText={
+										"Payments for this dataset require tokens on this blockchain."
+									}
+								/>
+							</div>
+							<div className={s.hash}>
+								<p className={s.text}>{product.super_prompt_creation_hash}</p>
+								<ContractIcon />
+							</div>
+						</>
 					)}
 
-					{/* WEAVE */}
-					{product.weave && (
-						<WeaveDetails weave={product.weave} product={product} />
+					{product.super_hash && (
+						<>
+							<div className={s.sectionSubtitle}>
+								<span>Super Prompt Creation Hash:</span>
+								<InfoBubble
+									tooltipText={
+										"Payments for this dataset require tokens on this blockchain."
+									}
+								/>
+							</div>
+							<p className={s.text}>{product.super_hash}</p>
+						</>
 					)}
 				</div>
 

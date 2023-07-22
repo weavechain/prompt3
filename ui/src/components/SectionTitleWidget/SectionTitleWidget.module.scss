@@ -11,6 +11,7 @@
 	.title {
 		@include font-header2($gray-100);
 		margin-left: 8px;
+		margin-right: 10px;
 	}
 
 	.subTitle {

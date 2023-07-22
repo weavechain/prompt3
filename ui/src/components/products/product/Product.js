@@ -18,7 +18,7 @@ export default function Product({ product, filters = {} }) {
 	const isMobile = useMediaQuery("(max-width: 700px)");
 	const useMocks = stateData.useMocks || true;
 
-	const detailsPath = `/${id}`;
+	const detailsPath = `/${id}/submit`;
 	const productLogo = getEntityLogo(
 		product.product_logo || product.logo,
 		useMocks

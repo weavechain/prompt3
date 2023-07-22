@@ -1,30 +1,39 @@
 import React, { useState } from "react";
 import { Button, Col, Row } from "reactstrap";
-import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 
-import AppConfig from "../../../AppConfig";
 import { generateContent } from "../../../_redux/actions/content";
 
 import s from "./SubmitWidget.module.scss";
 
+import BrainImg from "../../../assets/images/general/ai-brain.svg";
+
 import SectionTitleWidget from "../../../components/SectionTitleWidget/SectionTitleWidget";
 import TitleIcon from "../../../components/icons/TitleIcon";
+import ResponseIcon from "../../../components/icons/ResponseIcon";
+import ResponseHashDialog from "../../../components/dialogs/ResponseHashDialog/ResponseHashDialog";
 
 export default function SubmitWidget({ product }) {
 	const persona = product?.title;
 
 	const dispatch = useDispatch();
-	const history = useHistory();
-
 	const [text, setText] = useState("");
+	//const [table] = useState(AppConfig.DEFAULT_TABLE); //TODO: different tables for different advertised sets
+	const [isGenerating, setIsGenerating] = useState(false);
+	const [reponseText, setReponseText] = useState("");
+	const [showResponseDialog, setShowResponseDialog] = useState(false);
 
 	// ------------------------------------- METHODS -------------------------------------
 	const onSubmit = () => {
+		setIsGenerating(true);
+
 		try {
 			dispatch(generateContent(product?.persona, text)).then((result) => {
+				setIsGenerating(false);
 				if (result === "success") {
+					// TODO:
+					setReponseText();
 					toast.success("Answered");
 				} else {
 					toast.error("Problem while generating response");
@@ -33,8 +42,16 @@ export default function SubmitWidget({ product }) {
 		} catch (error) {}
 	};
 
+	const showResponseDetails = () => {
+		setShowResponseDialog(true);
+	};
+
 	return (
 		<div className={s.root}>
+			{showResponseDialog ? (
+				<ResponseHashDialog close={() => setShowResponseDialog(false)} />
+			) : null}
+
 			<div className={s.content}>
 				<Row>
 					<Col lg="6" sm="12">
@@ -72,19 +89,42 @@ export default function SubmitWidget({ product }) {
 							className={s.sectionTitle}
 							title="Generated Response"
 							isMandatory
-							icon={<TitleIcon />}
+							icon={<ResponseIcon />}
 						/>
 
 						<div className={s.inputContainer}>
+							{isGenerating ? (
+								<div className={s.generating}>
+									<img src={BrainImg} alt=".." />
+								</div>
+							) : null}
+
 							<textarea
 								className={s.response}
 								disabled
 								name="text"
-								defaultValue=""
-								rows={13}
-								placeholder="{persona} is generating your response, please wait..."
+								value={reponseText || ""}
+								rows={10}
+								placeholder={
+									isGenerating
+										? "{persona} is generating your response, please wait..."
+										: "After you submit a question, the assistant will generate a response here."
+								}
 								onChange={(e) => setText(e.target.value)}
 							/>
+
+							<div className={s.buttons}>
+								{reponseText ? (
+									<Button
+										className={s.button}
+										color="primary"
+										onClick={showResponseDetails}
+										disabled={!reponseText}
+									>
+										View Verified Response Details
+									</Button>
+								) : null}
+							</div>
 						</div>
 					</Col>
 				</Row>

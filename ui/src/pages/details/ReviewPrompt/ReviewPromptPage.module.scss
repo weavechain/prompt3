@@ -6,6 +6,32 @@
 	.content {
 		@include page-content(flex-start);
 
+		.topCard {
+			width: 100%;
+
+			.cardContent {
+				background-color: $white-10;
+				padding: 16px;
+
+				.title {
+					@include font-header5($gray-100);
+					margin-bottom: 12px;
+				}
+
+				.text {
+					font-family: "Courier New";
+					font-size: 16px;
+					font-weight: 700;
+				}
+			}
+
+			.label {
+				@include font-caption($gray-100, "Poppins", 400);
+			}
+
+			margin-bottom: 32px;
+		}
+
 		.cards {
 			width: 100%;
 			@include flex();
@@ -15,12 +41,12 @@
 			.card {
 				padding: 12px 16px;
 				border-radius: 4px;
-				width: 160px;
+				width: 350px;
+				max-width: 30%;
 				height: 72px;
 
 				&.earnings {
-					min-width: 322px;
-					background: $green-60;
+					background: #F5FAFE;
 
 					.earned {
 						@include font-header1($gray-100, "Poppins-Medium", 700);
@@ -33,20 +59,12 @@
 					}
 				}
 
-				&.accepted {
+				&.active {
 					background: $green-60;
 				}
 
-				&.rejected {
-					background-color: #f8d7da;
-				}
-
-				&.pending {
+				&.inactive {
 					background-color: $blue-60;
-				}
-
-				&.submitted {
-					background-color: $white-10;
 				}
 
 				.title {

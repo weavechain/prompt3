@@ -1,3 +1,5 @@
+import { randomBoolFlag } from "../helpers/Utils";
+import UserRoles from "../data/models/UserRoles";
 import products from "./products";
 import submissions from "./submissions";
 import submissions_accepted from "./submissions_accepted";
@@ -7,6 +9,7 @@ const DEFAULT_DEMO_DATA = {
 	submissions,
 	submissions_accepted,
 	account: {
+		role: randomBoolFlag() ? UserRoles.publisher : UserRoles.author,
 		balance: 0,
 		lockedAmount: 104.32,
 		withdrawableAmount: 0,

@@ -8,6 +8,14 @@
 		padding-left: 30px;
 		margin-bottom: 10px;
 		width: 100%;
+		position: relative;
+
+		.generating {
+			position: absolute;
+			left: 50%;
+			top: 50%;
+			transform: translate(-40%, -50%);
+		}
 
 		textarea {
 			@include font-text($gray-100, "Poppins", 400);
@@ -22,7 +30,7 @@
 			}
 
 			&.response {
-				font-family: "Courier Prime";
+				font-family: "Courier";
 				font-size: 14px;
 				font-weight: 400;
 				background: #f5fafe;

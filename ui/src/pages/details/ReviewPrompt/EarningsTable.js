@@ -128,7 +128,7 @@ export default function EarningsTable({ data = [] }) {
 					nextPage: "Next",
 					toolBar: () => (
 						<div className={s.toolbar}>
-							<SectionTitleWidget title="Earnings by Submission" />
+							<SectionTitleWidget title="Proposed Prompts" />
 							<TableSearch
 								className={s.search}
 								fullWidth={false}

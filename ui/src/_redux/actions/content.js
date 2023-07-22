@@ -42,6 +42,10 @@ export const readPrompts = async (persona, proposed = true) => {
     return await weaveReadContent(persona + (proposed ? "_proposals" : "_prompts"));
 }
 
+export const readSuperPrompt = async (persona) => {
+    return await weaveReadContent(persona + "_superprompt");
+}
+
 export const checkInclusionWithMerkle = async (table, contentText) => {
     const toCheck = JSON.stringify([contentText]);
     let hmacSHA256 = new keys.KeyExchange().signRequest(AppConfig.SALT, toCheck);

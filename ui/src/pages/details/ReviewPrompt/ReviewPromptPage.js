@@ -11,28 +11,55 @@ import TabsWidget from "../../../components/TabsWidget/TabsWidget";
 import AppConfig from "../../../AppConfig";
 import EarningsTable from "./EarningsTable";
 import TabsHelper from "../../../helpers/TabsHelper";
+import SubmitionStatus from "../../../helpers/models/SubmitionStatus";
 
-import { readPrompts } from "../../../_redux/actions/content";
+import { readPrompts, readSuperPrompt } from "../../../_redux/actions/content";
 
 
 export default function ReviewPromptPage() {
 	const { id } = useParams() || {};
 
-	const [prompts, setPrompts] = useState({});
+	const [superPrompt, setSuperPrompt] = useState([]);
+	const [proposedPrompts, setProposedPrompts] = useState([]);
+	const [acceptedPrompts, setAcceptedPrompts] = useState([]);
 
-	const { submissions = [] } = useSelector((state) => state.submissions || {});
-	const tableData = submissions.earningsData;
+	const [tableData, setTableData] = useState([]);
 
 	const { account = {} } = useSelector((state) => state.user || {});
 
 	const { products = [] } = useSelector((state) => state.products || {});
 	const product = products.find((p) => p.id === id) || {};
 
+	const paid = 0; //TODO
 
 	useEffect(() => {
 		readPrompts(product?.persona, true).then(r => {
 			console.log(r)
-			setPrompts(r?.data || []);
+			setProposedPrompts(r?.data || []);
+
+			const data = [];
+			(r?.data || []).forEach((d) => {
+				console.log(d)
+				data.push({
+					id: d.id,
+					title: d.text,
+					submission_date: d.ts,
+					model: product?.persona,
+					status: SubmitionStatus.pending,
+					earnings: 0,
+				});
+			})
+			setTableData(data);
+		});
+
+		readPrompts(product?.persona, false).then(r => {
+			console.log(r)
+			setAcceptedPrompts(r?.data || []);
+		});
+
+		readSuperPrompt(product?.persona).then(r => {
+			console.log(r)
+			setSuperPrompt(r?.data || []);
 		});
 	}, [ product?.id ]);
 
@@ -45,28 +72,33 @@ export default function ReviewPromptPage() {
 			</AppHeader>
 
 			<div className={s.content}>
+				<div className={s.topCard}>
+					<div className={s.cardContent}>
+						<div className={s.title}>Super Prompt</div>
+						<div className={s.text}>
+							You are a guide who knows Paris very well.
+						</div>
+					</div>
+					<div className={s.label}>
+						Accepting prompts below will adapt the Super Prompt behind this
+						Evolved AI Assistant.
+					</div>
+				</div>
+
 				<div className={s.cards}>
-					<div className={cx(s.card, s.accepted)}>
-						<div className={s.title}>Accepted</div>
-						<div className={s.value}>{submissions.accepted}</div>
+					<div className={cx(s.card, s.active)}>
+						<div className={s.title}>Active</div>
+						<div className={s.value}>{acceptedPrompts.length}</div>
 					</div>
-					<div className={cx(s.card, s.rejected)}>
-						<div className={s.title}>Rejected</div>
-						<div className={s.value}>{submissions.rejected}</div>
-					</div>
-					<div className={cx(s.card, s.pending)}>
-						<div className={s.title}>Pending</div>
-						<div className={s.value}>{submissions.pending}</div>
-					</div>
-					<div className={cx(s.card, s.submitted)}>
-						<div className={s.title}>Submitted</div>
-						<div className={s.value}>{submissions.submitted}</div>
+					<div className={cx(s.card, s.inactive)}>
+						<div className={s.title}>Inactive</div>
+						<div className={s.value}>{proposedPrompts.length}</div>
 					</div>
 
 					<div className={cx(s.card, s.earnings)}>
 						<div className={s.earned}>
-							{formatAmount(submissions.totalEarnings, 2, false, 2)}{" "}
-							<span>{AppConfig.CURRENCY} Earned Total</span>
+							{formatAmount(paid, 2, false, 2)}{" "}
+							<span>{AppConfig.CURRENCY} Paid Total</span>
 						</div>
 					</div>
 				</div>

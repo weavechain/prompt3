@@ -15,6 +15,9 @@ import SectionTitleWidget from "../../../components/SectionTitleWidget/SectionTi
 import TitleIcon from "../../../components/icons/TitleIcon";
 import CopyTextWidget from "../../../components/CopyTextWidget/CopyTextWidget";
 import RelatedListings from "../common/related/RelatedListings";
+import InfoBubble from "../../../components/InfoBubble/InfoBubble";
+import VerifiedTextWidget from "../../../components/VerifiedTextWidget/VerifiedTextWidget";
+import ContractIcon from "../../../components/icons/ContractIcon";
 
 export default function CheckInclusionPage() {
 	const [hash, setHash] = useState("");
@@ -42,7 +45,9 @@ export default function CheckInclusionPage() {
 	return product ? (
 		<div className={s.root}>
 			<AppHeader title={product.title}>
-				<TabsWidget tabs={TabsHelper.getTabs({ id, tab: "Check Inclusion", account })} />
+				<TabsWidget
+					tabs={TabsHelper.getTabs({ id, tab: "Check Inclusion", account })}
+				/>
 			</AppHeader>
 
 			{showMerkleDialog ? (
@@ -115,7 +120,7 @@ export default function CheckInclusionPage() {
 					{/* DESC */}
 					{product.description && (
 						<>
-							<div className={s.sectionSubtitle}>About {product.title}:</div>
+							<div className={s.sectionSubtitle}>About Assistant:</div>
 							<p
 								className={s.text}
 								dangerouslySetInnerHTML={{
@@ -125,14 +130,88 @@ export default function CheckInclusionPage() {
 						</>
 					)}
 
-					{/* DATABASE DID */}
-					{product.did && (
-						<CopyTextWidget
-							title="DID:"
-							text={product.did}
-							titleStyle={s.sectionSubtitle}
-							className={s.did}
-						/>
+					{product.markle_hash && (
+						<>
+							<div className={s.sectionSubtitle}>
+								<span>Merkle Root Hash:</span>
+								<InfoBubble
+									tooltipText={
+										"Payments for this dataset require tokens on this blockchain."
+									}
+								/>
+							</div>
+							<p className={s.text}>{product.markle_hash}</p>
+							<VerifiedTextWidget
+								text={
+									"Merkle Leaf was validated to exist within Merkle Tree at 2022-12-14 08:21 UTC"
+								}
+							/>
+						</>
+					)}
+
+					{product.input_prompt_hash && (
+						<>
+							<div className={s.sectionSubtitle}>
+								<span>Input Prompts Hash:</span>
+								<InfoBubble
+									tooltipText={
+										"Payments for this dataset require tokens on this blockchain."
+									}
+								/>
+							</div>
+							<div className={s.hash}>
+								<p className={s.text}>{product.input_prompt_hash}</p>
+								<ContractIcon />
+							</div>
+						</>
+					)}
+
+					{product.super_prompt_creation_hash && (
+						<>
+							<div className={s.sectionSubtitle}>
+								<span>Super Prompt Creation Hash:</span>
+								<InfoBubble
+									tooltipText={
+										"Payments for this dataset require tokens on this blockchain."
+									}
+								/>
+							</div>
+							<div className={s.hash}>
+								<p className={s.text}>{product.super_prompt_creation_hash}</p>
+								<ContractIcon />
+							</div>
+						</>
+					)}
+
+					{product.super_prompt_hash && (
+						<>
+							<div className={s.sectionSubtitle}>
+								<span>Super Prompt Hash:</span>
+								<InfoBubble
+									tooltipText={
+										"Payments for this dataset require tokens on this blockchain."
+									}
+								/>
+							</div>
+							<div className={s.hash}>
+								<p className={s.text}>{product.super_prompt_hash}</p>
+								<ContractIcon />
+							</div>
+						</>
+					)}
+
+					{product.signature_hash && (
+						<>
+							<div className={s.sectionSubtitle}>
+								<span>Signature of Super Prompt Creation:</span>
+								<InfoBubble
+									tooltipText={
+										"Payments for this dataset require tokens on this blockchain."
+									}
+								/>
+							</div>
+							<p className={s.text}>{product.signature_hash}</p>
+						</>
 					)}
 				</div>
 

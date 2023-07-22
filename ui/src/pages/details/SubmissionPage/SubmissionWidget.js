@@ -49,7 +49,7 @@ export default function SubmissionWidget({ product }) {
 		<div className={s.root}>
 			<SectionTitleWidget
 				className={s.sectionTitle}
-				title="Prompt"
+				title="Prompt Text"
 				isMandatory
 				icon={<TitleIcon />}
 			/>

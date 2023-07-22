@@ -18,17 +18,17 @@ export default function AppHeader({
 	goBack,
 	className = "",
 	children,
-	onAvatarClick,
+	//onAvatarClick,
 }) {
 	const history = useHistory();
 	const { connect } = useMetaMask();
 
-	const balance = useSelector((state) => state.user?.account?.balance)
+	const balance = useSelector((state) => state.user?.account?.balance);
 
 	// ------------------------------------- METHODS -------------------------------------
 	const viewAccount = () => {
-		if (onAvatarClick) return onAvatarClick();
-		//history.push("/account");
+		//if (onAvatarClick) return onAvatarClick();
+		history.push("/account");
 	};
 
 	const connectToMetamask = () => {
@@ -66,12 +66,12 @@ export default function AppHeader({
 					<div className={s.icon} onClick={connectToMetamask}>
 						<FoxIcon />
 					</div>
-					<div className={s.icon} onClick={viewAccount}>
+					<div className={s.icon}>
 						<AvatarIcon />
 					</div>
 				</div>
 
-				<div className={s.balance}>
+				<div className={s.balance} onClick={viewAccount}>
 					{`$${formatAmount(balance, 2, false, 2)}`}
 					<span>{AppConfig.CURRENCY}</span>
 				</div>

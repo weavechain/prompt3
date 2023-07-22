@@ -56,14 +56,14 @@ export default function AppRouter() {
 
 			<PrivateRoute
 				isLoggedIn={isLoggedIn}
-				path={"/:id"}
-				component={ProductIndex}
+				path={"/account"}
+				component={AccountIndex}
 			/>
 
 			<PrivateRoute
 				isLoggedIn={isLoggedIn}
-				path={"/account"}
-				component={AccountIndex}
+				path={"/:id"}
+				component={ProductIndex}
 			/>
 		</Switch>
 	);

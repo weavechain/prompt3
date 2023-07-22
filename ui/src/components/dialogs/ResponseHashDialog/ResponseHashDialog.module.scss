@@ -1,0 +1,42 @@
+@import "../../../assets/styles/app";
+
+.root {
+	.title {
+		@include font-header1($gray-100);
+		text-align: left;
+	}
+
+	.section {
+		.sectionTitle {
+			margin-bottom: 0;
+		}
+
+		.sectionInput {
+			padding-left: 30px;
+
+			input {
+				@include font-header5($gray-100, "Poppins");
+				background-color: $white-10;
+				margin-top: 4px;
+				font-weight: 400;
+			}
+		}
+	}
+
+	.buttons {
+		width: 100%;
+		@include flex-left();
+		padding: 12px;
+
+		button {
+			@include flex();
+			padding: 0 16px;
+			width: 100%;
+
+			span {
+				flex: 1;
+				margin-left: auto;
+			}
+		}
+	}
+}

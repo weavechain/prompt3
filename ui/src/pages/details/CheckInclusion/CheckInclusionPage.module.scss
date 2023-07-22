@@ -17,6 +17,14 @@
 				min-width: 237px;
 			}
 
+			.hash {
+				@include flex-left();
+
+				p {
+					margin-right: 4px;
+				}
+			}
+
 			.inputContainer {
 				padding-left: 30px;
 				margin-bottom: 10px;

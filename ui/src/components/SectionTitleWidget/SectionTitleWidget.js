@@ -6,6 +6,7 @@ export default function SectionTitleWidget({
 	title,
 	subTitle,
 	icon,
+	suffix,
 	isMandatory,
 	className = "",
 	rootClassName = "",
@@ -20,6 +21,8 @@ export default function SectionTitleWidget({
 						{title} {isMandatory && <span className="mandatory">*</span>}
 					</p>
 				)}
+
+				{suffix ? suffix : null}
 			</div>
 			{subTitle && <p className={s.subTitle}>{subTitle}</p>}
 		</div>

@@ -12,6 +12,13 @@
 			margin-bottom: 20px;
 			width: 100%;
 
+			.hash {
+				@include flex-left();
+
+				p {
+					margin-right: 4px;
+				}
+			}
 
 			p.sectionTitle {
 				margin-left: 0;

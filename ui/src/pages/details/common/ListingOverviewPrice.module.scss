@@ -1,8 +1,6 @@
 @import "../../../assets/styles/app";
 
 .root {
-	width: 200px;
-
 	div.sectionSubtitle {
 		@include font-header3($gray-60, 500, "Poppins-Medium");
 		letter-spacing: 0;

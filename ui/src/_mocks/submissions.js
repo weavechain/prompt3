@@ -2,10 +2,8 @@ import { uniqueId } from "lodash";
 import SubmitionStatus from "../helpers/models/SubmitionStatus";
 
 const submissions = {
-	accepted: 0,
-	rejected: 0,
-	pending: 1,
-	submitted: 0,
+	active: 0,
+	inactive: 3,
 	totalEarnings: 0,
 
 	earningsData: [
