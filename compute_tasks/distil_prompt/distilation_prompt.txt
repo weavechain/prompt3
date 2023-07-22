@@ -4,3 +4,4 @@ You will receive either one single paragraph or multiple paragraphs after the $$
 Each paragraph describes a role of a person. You will have summarize all the paragraphs into a single paragraph, describing the roles of that person as best as possible, while keeping the important keywords.
 Think how to summarize in the best way and take the right decisions to make sure we describe that person in the best way, such that the responsibilities are clear and produce the best description of the job.
 Before you finish, double check that the answer is the best description of the role that is described by these paragraphs.
+Make sure no $$$ sequence appears in your answer.
