@@ -15,4 +15,4 @@
   sudo docker pull gcr.io/weavechain/weave_prompt3:latest
   sudo docker stop weave_prompt3
   sudo docker rm weave_prompt3
-  sudo docker run -d --mount type=bind,src=/home/Admin/certs,dst=/etc/ssl/certs --mount type=bind,src=/home/Admin/logs/nginx,dst=/var/log/nginx --name weave_prompt3 -p 0.0.0.0:10016:443 gcr.io/weavechain/weave_prompt3:latest
+  sudo docker run -d --mount type=bind,src=/home/Admin/certs,dst=/etc/ssl/certs --mount type=bind,src=/home/Admin/logs/nginx,dst=/var/log/nginx --name weave_prompt3 -p 0.0.0.0:10017:443 gcr.io/weavechain/weave_prompt3:latest
