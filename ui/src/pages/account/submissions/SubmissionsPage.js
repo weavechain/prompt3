@@ -74,20 +74,20 @@ export default function SubmissionsPage() {
 				<div className={s.cards}>
 					<div className={cx(s.card, s.accepted)}>
 						<div className={s.title}>Active</div>
-						<div className={s.value}>{active}</div>
+						<div className={s.value}>{submissions.active}</div>
 					</div>
 					<div className={cx(s.card, s.rejected)}>
 						<div className={s.title}>Pending</div>
-						<div className={s.value}>{pending}</div>
+						<div className={s.value}>{submissions.pending}</div>
 					</div>
 					<div className={cx(s.card, s.submitted)}>
 						<div className={s.title}>Submitted</div>
-						<div className={s.value}>{submitted}</div>
+						<div className={s.value}>{submissions.submitted}</div>
 					</div>
 
 					<div className={cx(s.card, s.earnings)}>
 						<div className={s.earned}>
-							{formatAmount(totalEarnings, 2, false, 2)}{" "}
+							{formatAmount(submissions.totalEarnings, 2, false, 2)}{" "}
 							<span>{AppConfig.CURRENCY} Earned Total</span>
 						</div>
 					</div>
