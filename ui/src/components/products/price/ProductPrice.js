@@ -12,10 +12,7 @@ export default function ProductPrice({
 	minDecimals = 0,
 	suffix = "",
 }) {
-	const items = (token || "").split(":");
-	const bkToken = items.length > 1 ? items[1] : null;
-
-	return bkToken ? (
+	return token ? (
 		<div className={cx(s.root, className)}>
 			<p>
 				{price === 0
@@ -26,7 +23,7 @@ export default function ProductPrice({
 			</p>
 			<span>
 				&nbsp;
-				{bkToken} {suffix}
+				{token} {suffix}
 			</span>
 		</div>
 	) : null;

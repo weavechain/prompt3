@@ -4,16 +4,15 @@ import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 
-//import { wordsCount } from "../../../helpers/Utils";
-import AppConfig from "../../../AppConfig";
 import { writeContent } from "../../../_redux/actions/content";
 
 import s from "./SubmissionWidget.module.scss";
 
+import AppConfig from "../../../AppConfig";
 import CheckboxWidget from "../../../components/CheckboxWidget/CheckboxWidget";
 import SectionTitleWidget from "../../../components/SectionTitleWidget/SectionTitleWidget";
 import TitleIcon from "../../../components/icons/TitleIcon";
-import {weaveWriteContent} from "../../../helpers/weave";
+//import {weaveWriteContent} from "../../../helpers/weave";
 
 export default function SubmissionWidget({ product }) {
 	const [table] = useState(product.persona + "_proposals");
@@ -25,8 +24,6 @@ export default function SubmissionWidget({ product }) {
 	const [text, setText] = useState("");
 	const [hasAgreed, setHasAgreed] = useState(false);
 
-	//const minWords = product.license_req;
-	//const hasEnoughWords = wordsCount(text) >= product.license_req;
 	// ------------------------------------- METHODS -------------------------------------
 	const onSubmit = () => {
 		try {

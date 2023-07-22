@@ -12,6 +12,7 @@ import PencilIcon from "../../../../components/icons/PencilIcon";
 import FoxIcon from "../../../../components/icons/FoxIcon";
 import SubmissionsCards from "../cards/SubmissionsCards";
 import { downloadFile } from "../../../../helpers/Utils";
+import LOCAL_STORAGE from "../../../../helpers/localStorage";
 
 export default function SignInDetails({ account }) {
 	const { connect } = useMetaMask();
@@ -21,8 +22,9 @@ export default function SignInDetails({ account }) {
 
 	// ------------------------------------- METHODS -------------------------------------
 	const download = () => {
+		let state = LOCAL_STORAGE.loadState() || {};
 		downloadFile({
-			data: JSON.stringify(account.privateKey),
+			data: state.pvk,
 			fileName: "key.pvk",
 			fileType: "text/json",
 		});

@@ -1,0 +1,64 @@
+@import "../../../assets/styles/app";
+
+.root {
+	padding-bottom: 10px;
+
+	.inputContainer {
+		padding-left: 30px;
+		margin-bottom: 10px;
+		min-height: 250px;
+
+		&.merkle {
+			@include flex();
+			height: 100%;
+
+			img {
+				max-width: 250px;
+				max-height: 250px;
+			}
+		}
+
+		&.match {
+			.sectionTitle {
+				@include font-header3($gray-60, "Poppins ", 600);
+			}
+		}
+
+		.sectionInput {
+			input {
+				@include font-header5($gray-100, "Poppins");
+				background-color: $white-10;
+				margin-top: 4px;
+				font-weight: 400;
+			}
+		}
+
+		textarea {
+			@include font-text($gray-100, "Poppins", 400);
+			padding: 12px;
+			width: 100%;
+			min-width: 227px;
+			border-radius: 4px;
+			border: 1px solid $gray-20;
+
+			&::placeholder {
+				@include font-text($gray-60, "Poppins", 400);
+			}
+		}
+	}
+
+	.buttons {
+		@include flex-left();
+		margin-top: 16px;
+		flex: 1;
+
+		button {
+			width: 100%;
+			@include flex();
+
+			span {
+				flex: 1;
+			}
+		}
+	}
+}

@@ -4,5 +4,6 @@ const SubmitionStatus = {
 	rejected: 2,
 	submitted: 3,
 	stopped: 4,
+	inactive: 5,
 };
 export default SubmitionStatus;

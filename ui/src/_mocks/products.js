@@ -16,6 +16,15 @@ const license_description = `<ol>
 <li>Prompts will be reviewed and accepted or rejected at the sole discretion of the</li>
 </ol>`;
 
+const hashes = {
+	merkle_root_hash: "B4JkWiUwoSHkpxehXzeXfUa8UDL2dMpFpMgyca72Tak9",
+	input_prompt_hash: "6LfKoQQMqb8fYgA1PwBPKMhFaJ59Fn3DWw6qTRri4zjN",
+	super_prompt_creation_hash: "4M5CUV9uRi6EE42YEKxYyPkd35Kf1CMfUWig1VUMfnWu=",
+	super_prompt_hash: "36UaD8YjacqVUxbbCoAssrkruugmmAWjC7sQLvKEJcNC",
+	signature_hash:
+		"KW3AkT5yH3Rx6Y86xKmXXwq5XSNAaaqcXewxseQ4mVCam5WGpiepuT2HHMwydyUKyygswfhy6J5Vv6q8sfCAWch",
+};
+
 const PRODUCTS = [
 	{
 		id: uniqueId("1"),
@@ -29,6 +38,9 @@ const PRODUCTS = [
 		did: "did:weave:28QafJHUDymigJntadfRwHsZBEPGfBFxJxCSzmoMyLVRS:solidity_engineer",
 		price: 0.5,
 		token: "USDC",
+		blockchain: "Polygon",
+		license_description,
+		...hashes,
 	},
 	{
 		id: uniqueId("2"),
@@ -42,6 +54,7 @@ const PRODUCTS = [
 		did: "did:weave:28QafJHUDymigJntadfRwHsZBEPGfBFxJxCSzmoMyLVRS:paris_guide",
 		price: 0.5,
 		token: "USDC",
+		...hashes,
 	},
 	{
 		id: uniqueId("3"),
@@ -54,7 +67,9 @@ const PRODUCTS = [
 		persona: "pregnancy_nurse",
 		did: "did:weave:28QafJHUDymigJntadfRwHsZBEPGfBFxJxCSzmoMyLVRS:pregnancy_nurse",
 		price: 0.5,
+		blockchain: "Polygon",
 		token: "USDC",
+		...hashes,
 	},
 	{
 		id: uniqueId("4"),
@@ -67,7 +82,9 @@ const PRODUCTS = [
 		persona: "startup_advisor",
 		did: "did:weave:28QafJHUDymigJntadfRwHsZBEPGfBFxJxCSzmoMyLVRS:startup_advisor",
 		price: 0.5,
+		blockchain: "Polygon",
 		token: "USDC",
+		...hashes,
 	},
 	{
 		id: uniqueId("5"),
@@ -80,7 +97,9 @@ const PRODUCTS = [
 		persona: "crypto_trader",
 		did: "did:weave:28QafJHUDymigJntadfRwHsZBEPGfBFxJxCSzmoMyLVRS:crypto_trader",
 		price: 0.5,
+		blockchain: "Polygon",
 		token: "USDC",
+		...hashes,
 	},
 	{
 		id: uniqueId("4"),
@@ -93,7 +112,9 @@ const PRODUCTS = [
 		persona: "ethical_data_consultant",
 		did: "did:weave:28QafJHUDymigJntadfRwHsZBEPGfBFxJxCSzmoMyLVRS:ethical_data_consultant",
 		price: 0.5,
+		blockchain: "Polygon",
 		token: "USDC",
+		...hashes,
 	},
 ];
 

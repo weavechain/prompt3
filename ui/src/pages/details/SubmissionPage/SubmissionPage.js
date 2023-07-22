@@ -11,7 +11,7 @@ import TabsWidget from "../../../components/TabsWidget/TabsWidget";
 import CopyTextWidget from "../../../components/CopyTextWidget/CopyTextWidget";
 import InfoBubble from "../../../components/InfoBubble/InfoBubble";
 
-import ReviewSubmitWidget from "./SubmissionWidget";
+import SubmissionWidget from "./SubmissionWidget";
 import ListingOverviewPrice from "../common/ListingOverviewPrice";
 import RelatedListings from "../common/related/RelatedListings";
 import TabsHelper from "../../../helpers/TabsHelper";
@@ -25,8 +25,7 @@ export default function SubmissionPage() {
 	const product = products.find((p) => p.id === id) || {};
 	const relatedProducts = products.filter((p) => p.id !== id);
 
-	const items = (product?.token || "").split(":");
-	const blockchain = product.price !== 0 ? items[0] : null;
+	const blockchain = product.blockchain;
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -42,7 +41,7 @@ export default function SubmissionPage() {
 
 			<div className={s.content}>
 				<div className={s.section}>
-					<ReviewSubmitWidget product={product} />
+					<SubmissionWidget product={product} />
 
 					{/* PROVIDER */}
 					{product.author && (
@@ -73,7 +72,7 @@ export default function SubmissionPage() {
 					/>
 
 					{/* License Requirements */}
-					{product.license_req && (
+					{product.license_description && (
 						<>
 							<div className={s.sectionSubtitle}>
 								<span>License Requirements:</span>

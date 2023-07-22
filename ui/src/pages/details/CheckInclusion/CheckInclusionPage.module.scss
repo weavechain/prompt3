@@ -6,8 +6,11 @@
 
 	.content {
 		@include page-content(flex-start);
-		padding-top: 112px;
 
+		.placeholder {
+			min-height: 100px;
+		}
+		
 		.section {
 			position: relative;
 			margin-bottom: 20px;

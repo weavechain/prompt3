@@ -8,7 +8,7 @@ import { base58_to_binary, binary_to_base58 } from "base58-js";
 
 const { createHash } = require('crypto');
 
-export const weaveGenerateContent = async (persona, prompt) => {
+export const weaveGenerateContent = async (persona, prompt, scope) => {
     const nodeApi = await getNodeApi()
     if (!nodeApi) {
         console.log('Error creating node api')
@@ -16,14 +16,35 @@ export const weaveGenerateContent = async (persona, prompt) => {
     }
     const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
 
+    // eslint-disable-next-line no-unused-vars
     const { pub } = getOrCreateKey()
 
     const params = {
         persona,
-        prompt
+        prompt,
+        scope
     }
     let options = new WeaveHelper.Options.ComputeOptions(true, 300, 0, null, params);
-    return await nodeApi.compute(session, "generate_content", options)
+    return await nodeApi.compute(session, "gcr.io/weavechain/generate_content", options)
+}
+
+export const weaveDistilPrompt = async (persona, scope) => {
+    const nodeApi = await getNodeApi()
+    if (!nodeApi) {
+        console.log('Error creating node api')
+        return 'Error creating node api'
+    }
+    const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
+
+    // eslint-disable-next-line no-unused-vars
+    const { pub } = getOrCreateKey()
+
+    const params = {
+        persona,
+        scope
+    }
+    let options = new WeaveHelper.Options.ComputeOptions(true, 300, 0, null, params);
+    return await nodeApi.compute(session, "gcr.io/weavechain/distil_prompt", options)
 }
 
 export const weaveWriteContent = async (table, contentText, title) => {
@@ -34,6 +55,7 @@ export const weaveWriteContent = async (table, contentText, title) => {
     }
     const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
 
+    // eslint-disable-next-line no-unused-vars
     const { pub } = getOrCreateKey()
     console.log(table)
     let contentItems = [
@@ -182,7 +204,7 @@ const getSession = async (nodeApi, organization) => {
 
     let stateData = LOCAL_STORAGE.loadState() || {};
     console.log(stateData.faucetTried)
-    if (stateData.faucetTried != account) {
+    if (stateData.faucetTried !== account) {
         console.log("Trying faucet");
         const res = await nodeApi.compute(session, "gcr.io/weavechain/faucet_once", WeaveHelper.Options.COMPUTE_DEFAULT);
         console.log(res);

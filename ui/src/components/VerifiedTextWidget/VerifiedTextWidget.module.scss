@@ -1,9 +1,10 @@
 @import "../../assets/styles/app";
 
 .root {
-	@include font-header5($green-darkest, "Poppins-Medium", 400);
+	@include font-header5($green-darkest, "Poppins", 400);
 	background-color: #dcfaf5;
 	padding: 6px;
+	display: inline-block;
 
 	img {
 		margin-right: 4px;

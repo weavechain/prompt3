@@ -41,7 +41,7 @@ export default function SubmissionsPage() {
 			...(oldState || {}),
 			showAccepted: !oldState.showAccepted,
 		});
-		
+
 		dispatch(initSubmissions());
 	};
 
@@ -54,14 +54,10 @@ export default function SubmissionsPage() {
 			<div className={s.content}>
 				<div className={s.cards}>
 					<div className={cx(s.card, s.accepted)}>
-						<div className={s.title}>Accepted</div>
-						<div className={s.value}>{submissions.accepted}</div>
+						<div className={s.title}>Active</div>
+						<div className={s.value}>{submissions.active}</div>
 					</div>
 					<div className={cx(s.card, s.rejected)}>
-						<div className={s.title}>Rejected</div>
-						<div className={s.value}>{submissions.rejected}</div>
-					</div>
-					<div className={cx(s.card, s.pending)}>
 						<div className={s.title}>Pending</div>
 						<div className={s.value}>{submissions.pending}</div>
 					</div>

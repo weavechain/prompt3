@@ -15,11 +15,12 @@
 			.card {
 				padding: 12px 16px;
 				border-radius: 4px;
-				width: 160px;
+				width: 220px;
+				flex: 1;
 				height: 72px;
 
 				&.earnings {
-					min-width: 322px;
+					min-width: 350px;
 					background: $green-60;
 
 					.earned {

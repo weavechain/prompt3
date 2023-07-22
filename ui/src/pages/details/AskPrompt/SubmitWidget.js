@@ -31,9 +31,9 @@ export default function SubmitWidget({ product }) {
 		try {
 			dispatch(generateContent(product?.persona, text)).then((result) => {
 				setIsGenerating(false);
-				if (result === "success") {
-					// TODO:
-					setReponseText();
+				console.log(result)
+				if (result?.output) {
+					setReponseText(result?.output);
 					toast.success("Answered");
 				} else {
 					toast.error("Problem while generating response");
@@ -107,7 +107,7 @@ export default function SubmitWidget({ product }) {
 								rows={10}
 								placeholder={
 									isGenerating
-										? "{persona} is generating your response, please wait..."
+										? persona + " is generating your response, please wait..."
 										: "After you submit a question, the assistant will generate a response here."
 								}
 								onChange={(e) => setText(e.target.value)}

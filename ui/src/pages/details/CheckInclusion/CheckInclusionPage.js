@@ -1,39 +1,25 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect } from "react";
 import DOMPurify from "dompurify";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
-import { Button } from "reactstrap";
 
 import s from "./CheckInclusionPage.module.scss";
-import { checkInclusionWithMerkle } from "../../../_redux/actions/content";
 
 import TabsHelper from "../../../helpers/TabsHelper";
 import AppHeader from "../../../components/AppHeader/AppHeader";
-import MerkleLeafDialog from "../../../components/dialogs/MerkleLeafDialog/MerkleLeafDialog";
 import TabsWidget from "../../../components/TabsWidget/TabsWidget";
-import SectionTitleWidget from "../../../components/SectionTitleWidget/SectionTitleWidget";
-import TitleIcon from "../../../components/icons/TitleIcon";
 import CopyTextWidget from "../../../components/CopyTextWidget/CopyTextWidget";
-import RelatedListings from "../common/related/RelatedListings";
 import InfoBubble from "../../../components/InfoBubble/InfoBubble";
 import VerifiedTextWidget from "../../../components/VerifiedTextWidget/VerifiedTextWidget";
 import ContractIcon from "../../../components/icons/ContractIcon";
+import InclusionSubmitWidget from "./InclusionSubmitWidget";
 
 export default function CheckInclusionPage() {
-	const [hash, setHash] = useState("");
-	const [rootHash, setRootHash] = useState("");
-	const [match, setMatch] = useState(false);
-	const [text, setText] = useState("");
-	const [tree, setTree] = useState("");
-	const [showMerkleDialog, setShowMerkleDialog] = useState(false);
-
 	const { id } = useParams() || {};
 	const { products = [] } = useSelector((state) => state.products || {});
 	const { account = {} } = useSelector((state) => state.user || {});
 
 	const product = products.find((p) => p.id === id);
-	const relatedProducts = products.filter((p) => p.id !== id);
-
 	const table = product?.persona + "_prompts";
 
 	useEffect(() => {
@@ -41,7 +27,6 @@ export default function CheckInclusionPage() {
 	}, [id]);
 
 	// ------------------------------------- METHODS -------------------------------------
-
 	return product ? (
 		<div className={s.root}>
 			<AppHeader title={product.title}>
@@ -50,62 +35,9 @@ export default function CheckInclusionPage() {
 				/>
 			</AppHeader>
 
-			{showMerkleDialog ? (
-				<MerkleLeafDialog
-					persona={product?.persona}
-					data={{ hash, rootHash, match, tree }}
-					close={() => setShowMerkleDialog(false)}
-				/>
-			) : null}
-
 			<div className={s.content}>
 				<div className={s.section}>
-					<SectionTitleWidget
-						className={s.sectionTitle}
-						title="Content"
-						isMandatory
-						icon={<TitleIcon />}
-					/>
-
-					<div className={s.inputContainer}>
-						<textarea
-							name="text"
-							defaultValue=""
-							rows={10}
-							placeholder="Paste text here"
-							onChange={(e) => setText(e.target.value)}
-						/>
-
-						{/* MARKDOWN */}
-						<div className={s.textAreaInfo}>
-							<p className={s.markdown}>
-								Paste content to submit for licensing.{" "}
-								<span>**Markdown accepted.**</span>
-							</p>
-						</div>
-
-						<div className={s.buttons}>
-							<Button
-								className={s.button}
-								color="primary"
-								onClick={() => {
-									console.log(text);
-									console.log(table);
-									checkInclusionWithMerkle(table, text).then((result) => {
-										console.log(result);
-										setHash(result?.hash);
-										setRootHash(result?.result?.rootHash);
-										setMatch(result?.result?.match);
-										setTree(result?.result?.tree);
-										setShowMerkleDialog(true);
-									});
-								}}
-								disabled={!text}
-							>
-								Check for Usage
-							</Button>
-						</div>
-					</div>
+					<InclusionSubmitWidget table={table} />
 				</div>
 
 				<div className={s.section}>
@@ -130,7 +62,7 @@ export default function CheckInclusionPage() {
 						</>
 					)}
 
-					{product.markle_hash && (
+					{product.merkle_root_hash && (
 						<>
 							<div className={s.sectionSubtitle}>
 								<span>Merkle Root Hash:</span>
@@ -140,12 +72,7 @@ export default function CheckInclusionPage() {
 									}
 								/>
 							</div>
-							<p className={s.text}>{product.markle_hash}</p>
-							<VerifiedTextWidget
-								text={
-									"Merkle Leaf was validated to exist within Merkle Tree at 2022-12-14 08:21 UTC"
-								}
-							/>
+							<p className={s.text}>{product.merkle_root_hash}</p>
 						</>
 					)}
 
@@ -215,10 +142,12 @@ export default function CheckInclusionPage() {
 					)}
 				</div>
 
-				<RelatedListings
+				<div className={s.placeholder}>&nbsp;</div>
+
+				{/* <RelatedListings
 					products={relatedProducts}
 					title="Check Other Models"
-				/>
+				/> */}
 			</div>
 		</div>
 	) : null;

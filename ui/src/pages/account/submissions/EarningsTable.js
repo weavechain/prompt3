@@ -1,18 +1,15 @@
 import React, { useState, useEffect } from "react";
 import cx from "classnames";
 import { BootstrapTable } from "react-bootstrap-table";
-import { useHistory } from "react-router";
 import { escapeRegexp, getKeyByValue } from "../../../helpers/Utils";
 
 import s from "./EarningsTable.module.scss";
 
-//import { getUserTimezone } from "../../../helpers/Utils";
 import AppConfig from "../../../AppConfig";
 import MoneyCounter from "../../../components/MoneyCounter/MoneyCounter";
 import TableCell from "../../../components/TableCell/TableCell";
 import TableSearch from "../../../components/TableSearch/TableSearch";
 import TableHeaderCol from "../../../components/TableHeaderCol/TableHeaderCol";
-import ViewIcon from "../../../components/icons/ViewIcon";
 import TrashIcon from "../../../components/icons/TrashIcon";
 import SectionTitleWidget from "../../../components/SectionTitleWidget/SectionTitleWidget";
 import SubmitionStatus from "../../../helpers/models/SubmitionStatus";
@@ -21,7 +18,6 @@ import StopLicenseDialog from "../../../components/dialogs/StopLicenseDialog/Sto
 const PAGE_SIZE = AppConfig.PAGE_SIZE;
 
 export default function EarningsTable({ data = [] }) {
-	const history = useHistory();
 	const [dataList, setDataList] = useState(data);
 	const [searchText, setSearchText] = useState("");
 	const [selectedModel, setSelectedModel] = useState(null);
@@ -50,13 +46,16 @@ export default function EarningsTable({ data = [] }) {
 		setDataList([...filteredData]);
 	};
 
-	const goTo = (page) => {
-		history.push(page);
-	};
-
 	// ------------------------------------- FORMATS -------------------------------------
 	const defaultFormatter = (cell) => {
-		return <TableCell type="name" text={cell} searchText={searchText} />;
+		return (
+			<TableCell
+				type="name"
+				text={cell}
+				searchText={searchText}
+				textStyle={s.title2lines}
+			/>
+		);
 	};
 
 	const modelFormatter = (cell) => {
@@ -81,6 +80,7 @@ export default function EarningsTable({ data = [] }) {
 			<div
 				className={cx(s.status, {
 					[s.accepted]: cell === SubmitionStatus.accepted,
+					[s.pending]: cell === SubmitionStatus.pending,
 					[s.rejected]: cell === SubmitionStatus.rejected,
 				})}
 			>
@@ -96,10 +96,6 @@ export default function EarningsTable({ data = [] }) {
 	const actionFormatter = (_, row) => {
 		return (
 			<div className={s.actions}>
-				<div className={s.pencil} onClick={() => goTo(`#`)}>
-					<ViewIcon width="16" height="16" />
-				</div>
-
 				{row.status !== SubmitionStatus.stopped ? (
 					<div className={s.deleteIcon} onClick={() => setSelectedModel(row)}>
 						<TrashIcon width="16" height="16" />
@@ -128,7 +124,7 @@ export default function EarningsTable({ data = [] }) {
 					nextPage: "Next",
 					toolBar: () => (
 						<div className={s.toolbar}>
-							<SectionTitleWidget title="Earnings by Submission" />
+							<SectionTitleWidget title="Proposed Prompts" />
 							<TableSearch
 								className={s.search}
 								fullWidth={false}
@@ -149,27 +145,17 @@ export default function EarningsTable({ data = [] }) {
 				<TableHeaderCol
 					dataSort
 					dataField="title"
-					columnClassName={s.highlight}
 					dataFormat={defaultFormatter}
-					title="Title"
-					width="300"
+					title="Prompt"
 				/>
-				{/* <TableHeaderCol
-					dataField="submission_date"
-					dataFormat={dateFormatter}
-					dataSort
-					width="280"
-					className={s.rightTh}
-					title={`Submission Date ${getUserTimezone()}`}
-				/> */}
 				<TableHeaderCol
 					dataSort
 					dataField="model"
-					columnClassName={s.highlight}
+					//columnClassName={s.highlight}
 					className={s.rightTh}
 					dataFormat={modelFormatter}
-					title="Model"
-					width="140"
+					title="Assistant"
+					width="160"
 				/>
 				<TableHeaderCol
 					dataSort
@@ -190,10 +176,10 @@ export default function EarningsTable({ data = [] }) {
 				<TableHeaderCol
 					dataField="actions"
 					dataSort
-					columnClassName={s.highlight}
+					className={s.rightTh}
 					dataFormat={actionFormatter}
 					title="Actions"
-					width="260"
+					width="140"
 				>
 					Action
 				</TableHeaderCol>

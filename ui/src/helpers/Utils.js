@@ -12,6 +12,16 @@ export const wordsCount = (text) => {
 	return text ? text.trim().split(" ").length : 0;
 };
 
+export const trimKey = (text, inMiddle = false) => {
+	return inMiddle
+		? text && text.length > 8
+			? text.substr(0, 4) + "..." + text.substr(-4)
+			: text
+		: text && text.length > 4
+		? "..." + text.substr(-4)
+		: text;
+};
+
 export const hasItems = (list) => {
 	return list && list.length > 0;
 };

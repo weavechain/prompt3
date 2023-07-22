@@ -13,16 +13,16 @@
 		padding-right: 15px;
 		margin-bottom: 8px;
 
-		.search {
-			margin-right: 0;
-			width: auto;
-			flex: 1;
-		}
-	}
+		.payButton {
+			margin-left: auto;
 
-	.title2lines {
-		span {
-			@include ellipsis(2);
+			button {
+				@include flex();
+
+				min-width: 360px;
+				height: 40px;
+				padding: 0px 12px;
+			}
 		}
 	}
 
@@ -30,16 +30,12 @@
 		@include font-text($gray-100, "Poppins", 400);
 		text-transform: capitalize;
 
-		&.accepted {
-			color: $green-100;
+		&.active {
+			font-weight: 600;
 		}
 
-		&.pending {
+		&.inactive {
 			font-style: italic;
-		}
-
-		&.rejected {
-			color: $bad;
 		}
 	}
 
@@ -102,7 +98,23 @@
 			border: none;
 
 			.actions {
-				@include flex();
+				@include flex-left();
+
+				.editIcon,
+				.gearIcon,
+				.pauseIcon,
+				.pencil {
+					margin-right: 16px;
+					width: 24px;
+					height: 24px;
+					@include flex();
+				}
+
+				.pencil:hover {
+					svg path {
+						stroke: $blue-100;
+					}
+				}
 
 				.deleteIcon:hover {
 					svg path {

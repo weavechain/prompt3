@@ -1,5 +1,5 @@
 import { binary_to_base58 } from "base58-js"
-import { weaveCheckBalance, weaveCheckInclusionWithMerkle, weaveWriteContent, weaveGenerateContent, weaveReadContent } from "../../helpers/weave"
+import { weaveCheckBalance, weaveCheckInclusionWithMerkle, weaveWriteContent, weaveGenerateContent, weaveDistilPrompt, weaveReadContent } from "../../helpers/weave"
 import keys from "../../weaveapi/keys"
 import { ActionTypes } from "../constants"
 import AppConfig from "../../AppConfig";
@@ -24,15 +24,33 @@ export const writeContent = (table, contentText, title) => {
 export const generateContent = (persona, prompt) => {
     return dispatch => {
         return new Promise(resolve => {
-            weaveGenerateContent(persona, prompt).then(response => {
+            weaveGenerateContent(persona, prompt, AppConfig.SCOPE).then(response => {
                 if (!response.data || response.res === 'err') {
                     console.log('Error during text generation: ' + JSON.stringify(response))
-                    resolve('error')
+                    resolve(response.message)
                     return;
                 }
 
                 dispatch({type: ActionTypes.CONTENT_WRITTEN})
-                resolve('success')
+                resolve(response.data)
+            })
+        })
+    }
+}
+
+export const distilPrompt = (persona) => {
+    return dispatch => {
+        return new Promise(resolve => {
+            weaveDistilPrompt(persona, AppConfig.SCOPE).then(response => {
+                console.log(response)
+                if (!response.data || response.res === 'err') {
+                    console.log('Error during prompt distillation: ' + JSON.stringify(response))
+                    resolve(response.message)
+                    return;
+                }
+
+                dispatch({type: ActionTypes.CONTENT_WRITTEN})
+                resolve(response.data)
             })
         })
     }
@@ -43,7 +61,7 @@ export const readPrompts = async (persona, proposed = true) => {
 }
 
 export const readSuperPrompt = async (persona) => {
-    return await weaveReadContent(persona + "_superprompt");
+    return await weaveReadContent(persona + "_superprompts");
 }
 
 export const checkInclusionWithMerkle = async (table, contentText) => {

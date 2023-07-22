@@ -18,7 +18,7 @@ export default function AppHeader({
 	goBack,
 	className = "",
 	children,
-	//onAvatarClick,
+	onAvatarClick,
 }) {
 	const history = useHistory();
 	const { connect } = useMetaMask();
@@ -27,7 +27,6 @@ export default function AppHeader({
 
 	// ------------------------------------- METHODS -------------------------------------
 	const viewAccount = () => {
-		//if (onAvatarClick) return onAvatarClick();
 		history.push("/account");
 	};
 
@@ -66,7 +65,10 @@ export default function AppHeader({
 					<div className={s.icon} onClick={connectToMetamask}>
 						<FoxIcon />
 					</div>
-					<div className={s.icon}>
+					<div
+						className={s.icon}
+						onClick={onAvatarClick ? onAvatarClick : () => {}}
+					>
 						<AvatarIcon />
 					</div>
 				</div>
