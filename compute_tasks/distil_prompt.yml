@@ -1,0 +1,7 @@
+version: '3'
+services:
+  split_nn_client:
+    build:
+      context: .
+      dockerfile: distil_prompt/Dockerfile
+    image: distil_prompt

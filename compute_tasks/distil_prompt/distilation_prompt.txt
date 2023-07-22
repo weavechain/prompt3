@@ -1,0 +1,6 @@
+You will get instructions for summarizing many paragraphs into a single paragraph.
+You will write an answer that's on average the same size as the different paragraphs taken one by one. Make sure that all important keywords are, in the end, in the answer.
+You will receive either one single paragraph or multiple paragraphs after the $$$ separator and then will receive other paragraphs separated by the sequence $$$. Remember, this is about summerizing the paragraphs after $$$.
+Each paragraph describes a role of a person. You will have summarize all the paragraphs into a single paragraph, describing the roles of that person as best as possible, while keeping the important keywords.
+Think how to summarize in the best way and take the right decisions to make sure we describe that person in the best way, such that the responsibilities are clear and produce the best description of the job.
+Before you finish, double check that the answer is the best description of the role that is described by these paragraphs.
