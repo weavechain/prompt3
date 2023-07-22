@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import { useParams } from "react-router";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 import s from "./CheckInclusionPage.module.scss";
 
@@ -13,6 +13,7 @@ import InfoBubble from "../../../components/InfoBubble/InfoBubble";
 import VerifiedTextWidget from "../../../components/VerifiedTextWidget/VerifiedTextWidget";
 import ContractIcon from "../../../components/icons/ContractIcon";
 import InclusionSubmitWidget from "./InclusionSubmitWidget";
+import { readLineage } from "../../../_redux/actions/content";
 
 export default function CheckInclusionPage() {
 	const { id } = useParams() || {};
@@ -29,10 +30,30 @@ export default function CheckInclusionPage() {
 			setTabs(res)
 		})
 	}, [])
+	const dispatch = useDispatch();
+
+	const [rootHash, setRootHash] = useState("")
+	const [inputHash, setInputHash] = useState("")
+	const [computeHash, setComputeHash] = useState("")
+	const [outputHash, setOutputHash] = useState("")
+	const [writesSignature, setWritesSignature] = useState("")
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [id]);
+
+	useEffect(() => {
+		dispatch(readLineage(product?.persona)).then(response => {
+			if (!response[0]) {
+				return;
+			}
+			setRootHash(JSON.parse(response[0].lineage).rootHashes)
+			setInputHash(JSON.parse(response[0].lineage).inputHashes)
+			setComputeHash(JSON.parse(response[0].lineage).computeHash)
+			setOutputHash(JSON.parse(response[0].lineage).outputHash)
+			setWritesSignature(JSON.parse(response[0].lineage).writesSignature)
+		})
+	}, [])
 
 	// ------------------------------------- METHODS -------------------------------------
 	return product ? (
@@ -80,7 +101,7 @@ export default function CheckInclusionPage() {
 									}
 								/>
 							</div>
-							<p className={s.text}>{product.merkle_root_hash}</p>
+							<p className={s.text}>{rootHash}</p>
 						</>
 					)}
 
@@ -95,7 +116,7 @@ export default function CheckInclusionPage() {
 								/>
 							</div>
 							<div className={s.hash}>
-								<p className={s.text}>{product.input_prompt_hash}</p>
+								<p className={s.text}>{inputHash}</p>
 								<ContractIcon />
 							</div>
 						</>
@@ -112,7 +133,7 @@ export default function CheckInclusionPage() {
 								/>
 							</div>
 							<div className={s.hash}>
-								<p className={s.text}>{product.super_prompt_creation_hash}</p>
+								<p className={s.text}>{computeHash}</p>
 								<ContractIcon />
 							</div>
 						</>
@@ -129,7 +150,7 @@ export default function CheckInclusionPage() {
 								/>
 							</div>
 							<div className={s.hash}>
-								<p className={s.text}>{product.super_prompt_hash}</p>
+								<p className={s.text}>{outputHash}</p>
 								<ContractIcon />
 							</div>
 						</>
@@ -145,7 +166,7 @@ export default function CheckInclusionPage() {
 									}
 								/>
 							</div>
-							<p className={s.text}>{product.signature_hash}</p>
+							<p className={s.text}>{writesSignature}</p>
 						</>
 					)}
 				</div>

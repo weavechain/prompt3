@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 
 import s from "./ListingOverview.module.scss";
@@ -8,8 +8,24 @@ import CopyTextWidget from "../../../components/CopyTextWidget/CopyTextWidget";
 import InfoBubble from "../../../components/InfoBubble/InfoBubble";
 
 import SubmitWidget from "./SubmitWidget";
+import { readLineage } from "../../../_redux/actions/content";
+import { useDispatch } from "react-redux";
 
 export default function ListingOverview({ product = {} }) {
+
+	const [writesSignature, setWritesSignature] = useState("")
+
+	const dispatch = useDispatch();
+
+	useEffect(() => {
+		dispatch(readLineage(product?.persona)).then(response => {
+			if (!response[0]) {
+				return;
+			}
+			setWritesSignature(JSON.parse(response[0].lineage).writesSignature)
+		})
+	}, [])
+
 	return (
 		<div className={s.root} id="overview">
 			<div className={s.section}>
@@ -50,7 +66,7 @@ export default function ListingOverview({ product = {} }) {
 								}
 							/>
 						</div>
-						<p className={s.text}>{product.signature_hash}</p>
+						<p className={s.text}>{writesSignature}</p>
 					</>
 				)}
 			</div>

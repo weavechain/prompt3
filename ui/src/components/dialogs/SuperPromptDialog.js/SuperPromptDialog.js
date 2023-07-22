@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Button, Modal, ModalBody, ModalFooter, ModalHeader } from "reactstrap";
 import { downloadAsCsv, now } from "../../../helpers/Utils";
 
@@ -7,6 +7,8 @@ import s from "./SuperPromptDialog.module.scss";
 import VerifiedTextWidget from "../../VerifiedTextWidget/VerifiedTextWidget";
 import ContractIcon from "../../icons/ContractIcon";
 import InfoBubble from "../../InfoBubble/InfoBubble";
+import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useSelector } from "react-redux";
 
 export default function SuperPromptDialog({ data = {}, close = () => {} }) {
 	const validationDate = data.last_updated || now();

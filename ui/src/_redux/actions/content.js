@@ -6,7 +6,9 @@ import {
     weaveGenerateContent,
     weaveDistilPrompt,
     weaveReadContent,
-    weaveApprovePrompts
+    weaveApprovePrompts,
+    writeLineage,
+    weaveReadLineage
 } from "../../helpers/weave"
 import keys from "../../weaveapi/keys"
 import { ActionTypes } from "../constants"
@@ -59,10 +61,19 @@ export const distilPrompt = (persona, accepted) => {
                         return;
                     }
 
+                    writeLineage(response, persona).then(response => {
+                        if (response.res === 'err') {
+                            console.log('Error during lineage write: ' + JSON.stringify(response))
+                            resolve(response.message)
+                            return;
+                        }
+                        resolve(response.message)
+                    })
+
                     dispatch({type: ActionTypes.CONTENT_WRITTEN})
                     resolve(response.data)
                 })
-            });
+            })
         })
     }
 }
@@ -88,4 +99,21 @@ export const checkInclusionWithMerkle = async (table, contentText) => {
 
 export const checkBalance = async () => {
     return await weaveCheckBalance()
+}
+
+export const readLineage = (persona) => {
+    return dispatch => {
+        return new Promise(resolve => {
+            weaveReadLineage(persona).then(response => {
+                if (!response.data || response.res === 'err') {
+                    console.log('Error during weaveReadLineage(): ' + JSON.stringify(response))
+                    resolve('error')
+                    return;
+                }
+
+                dispatch({type: ActionTypes.CONTENT_WRITTEN})
+                resolve(response.data)
+            })
+        })
+    }
 }

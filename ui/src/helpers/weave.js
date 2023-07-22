@@ -5,6 +5,7 @@ import WeaveAPI from "../weaveapi/weaveapi";
 import AppConfig from "../AppConfig";
 import LOCAL_STORAGE from "./localStorage";
 import { base58_to_binary, binary_to_base58 } from "base58-js";
+import _ from "lodash";
 
 const { createHash } = require('crypto');
 
@@ -235,4 +236,55 @@ const getSession = async (nodeApi, organization) => {
     }
 
     return session;
+}
+
+export const writeLineage = async (response, persona) => {
+    const nodeApi = await getNodeApi()
+    if (!nodeApi) {
+        console.log('Error creating node api')
+        return 'Error creating node api'
+    }
+    const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
+
+    const table = "personas_lineage"
+    let rootHash = '{}'
+    if (_.isEmpty(response.data.rootHashes)) {
+        rootHash = response.data.rootHashes.split('=')[2].slice(0, -2);
+    }
+    let lineage = {
+        "rootHash": rootHash,
+        "inputHash": response.data.inputHash,
+        "computeHash": response.data.computeHash,
+        "outputHash": response.data.outputHash,
+        "writesSignature": response.data.writesSignature
+    }
+    let contentItems = [
+        [
+            null, // id
+            null, // ts
+            null, // pub
+            null, // sig
+            null, // ip
+            '*',  // roles
+            persona, //content
+            lineage // content
+        ]
+    ]
+    let contentRecord = new Records(table, contentItems)
+    return await nodeApi.write(session, AppConfig.SCOPE, contentRecord, options.WRITE_DEFAULT)
+}
+
+export const weaveReadLineage = async (persona) => {
+    const nodeApi = await getNodeApi()
+    if (!nodeApi) {
+        console.log('Error creating node api')
+        return 'Error creating node api'
+    }
+    const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
+
+    const table = "personas_lineage"
+    let filter = new WeaveHelper.Filter(WeaveHelper.FilterOp.eq("persona", persona), {"id": "ASC"}, 1, null)
+    console.log("Fetching personas lineage for persona ", persona)
+   
+    return await nodeApi.read(session, AppConfig.SCOPE, table, filter, WeaveHelper.Options.READ_DEFAULT_NO_CHAIN);
 }
