@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import { Button } from "reactstrap";
 import { useSelector } from "react-redux";
 import { useMetaMask } from "metamask-react";
@@ -17,8 +17,14 @@ import LOCAL_STORAGE from "../../../../helpers/localStorage";
 export default function SignInDetails({ account }) {
 	const { connect } = useMetaMask();
 
-	const { publicKey } = account;
+	const [ publicKey, setPublicKey ] = useState("");
 	const { submissions = [] } = useSelector((state) => state.submissions || {});
+
+	useEffect(() => {
+		let state = LOCAL_STORAGE.loadState() || {};
+		setPublicKey(state.pub);
+		// eslint-disable-next-line react-hooks/exhaustive-deps
+	}, []);
 
 	// ------------------------------------- METHODS -------------------------------------
 	const download = () => {

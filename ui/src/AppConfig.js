@@ -15,6 +15,8 @@ const AppConfig = {
 	NODE_HOST: "lineage.weavechain.com",
 	NODE_PORT: 443,
 	NODE_SEED: "56f3b1f203e31c31208abb493ebb5d40",
+	NFT_TOKEN_URI: '0x0b5c2497a08bE7c9D73ADA4F908EF11fca49A59C',
+	// NFT_TOKEN_URI: '0x22c1f6050e56d2876009903609a2cc3fef83b415', // GNOSIS mainnet contract for DEMO
 	ORGANIZATION: "weavedemo",
 	SCOPE: "vault",
 	DIGEST: "SHA-256",

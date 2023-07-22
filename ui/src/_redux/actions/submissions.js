@@ -7,8 +7,17 @@ export const initSubmissions = (showAccepted) => {
 	const stateData = LOCAL_STORAGE.loadState() || {};
 
 	const submissions = stateData.showAccepted
-		? DEFAULT_DEMO_DATA.submissions_accepted
+		? DEFAULT_DEMO_DATA.submissions_accepted || []
 		: DEFAULT_DEMO_DATA.submissions || [];
+
+	const mocked = true;
+
+	if (mocked) {
+		(submissions?.earningsData || []).forEach((r) => {
+			console.log(r);
+			r.title = stateData.lastSubmit || r.title;
+		});
+	}
 
 	return (dispatch) => {
 		dispatch({

@@ -1,26 +1,28 @@
-import abi from './PoP_abi.json'
+import abi from '../LineageNFT_abi.json'
 
 import AppConfig from "../AppConfig";
 import Web3 from "web3";
 
-const checkWeb3 = () => {
+const checkWeb3 = async() => {
 	if (window.ethereum) {
 		window.web3 = new Web3(window.ethereum);
-		window.ethereum.enable();
+		await window.ethereum.enable();
 	}
 };
 
-const checkIfUserHasNFT = async (wallet) => {
-	if (wallet) {
-		checkWeb3();
+const checkIfUserHasNFT = async () => {
+	checkWeb3();
 
-		const contract = await new window.web3.eth.Contract(abi, AppConfig.NFT_TOKEN_URI);
-		let count = await contract.methods.balanceOf(wallet).call();
-		console.log("Wallet " + wallet + " has " + count + " NFTs");
-		return count > 0;
-	} else {
-		return false;
+	const accounts = await window.ethereum.request({ method: 'eth_requestAccounts' });
+    const account = accounts[0];
+	if (!account) {
+		return false
 	}
+
+	const contract = await new window.web3.eth.Contract(abi, AppConfig.NFT_TOKEN_URI);
+	let count = await contract.methods.balanceOf(account).call();
+	console.log("Wallet " + account + " has " + count + " NFTs");
+	return count > 0;
 };
 
 const mint = async (wallet) => {

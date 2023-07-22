@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 
 import { writeContent } from "../../../_redux/actions/content";
-
+import LOCAL_STORAGE from "../../../helpers/localStorage";
 import s from "./SubmissionWidget.module.scss";
 
 import AppConfig from "../../../AppConfig";
@@ -27,6 +27,13 @@ export default function SubmissionWidget({ product }) {
 	// ------------------------------------- METHODS -------------------------------------
 	const onSubmit = () => {
 		try {
+			let oldState = LOCAL_STORAGE.loadState() || {};
+
+			LOCAL_STORAGE.saveState({
+				...oldState,
+				lastSubmit: text,
+			});
+
 			dispatch(writeContent(table, text, title)).then((result) => {
 				if (result === "success") {
 					toast.success("Content submitted successfully");

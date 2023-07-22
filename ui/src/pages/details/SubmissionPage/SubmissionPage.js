@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 import { capitalize } from "lodash";
@@ -21,6 +21,13 @@ export default function SubmissionPage() {
 	const { id } = useParams() || {};
 	const { products = [] } = useSelector((state) => state.products || {});
 	const { account = {} } = useSelector((state) => state.user || {});
+	const [tabs, setTabs] = useState([])
+
+	useEffect(() => {
+		TabsHelper.getTabs({ id, tab: "Submit Prompts", account }).then(res => {
+			setTabs(res)
+		})
+	}, [])
 
 	const product = products.find((p) => p.id === id) || {};
 	const relatedProducts = products.filter((p) => p.id !== id);
@@ -35,7 +42,7 @@ export default function SubmissionPage() {
 		<div className={s.root}>
 			<AppHeader title={product.title}>
 				<TabsWidget
-					tabs={TabsHelper.getTabs({ id, tab: "Submit Prompts", account })}
+					tabs={tabs}
 				/>
 			</AppHeader>
 

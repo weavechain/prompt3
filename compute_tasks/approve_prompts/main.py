@@ -55,6 +55,9 @@ def main():
                 print(res)
                 rows = rows + 1
 
+                res = nodeApi.transfer(session, r["pubkey"], "", "USDC", price_per_row).get()
+                print(res)
+
     #records = Records(out_table, [ ... ])
     #res = nodeApi.write(session, scope, records, WRITE_DEFAULT).get()
     #print(res)

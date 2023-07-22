@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 
@@ -19,6 +19,14 @@ export default function AskPromptPage() {
 	const product = products.find((p) => p.id === id);
 	const relatedProducts = products.filter((p) => p.id !== id);
 
+	const [tabs, setTabs] = useState([])
+
+	useEffect(() => {
+		TabsHelper.getTabs({ id, tab: "Ask Assistant", account }).then(res => {
+			setTabs(res)
+		})
+	}, [])
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [id]);
@@ -27,7 +35,7 @@ export default function AskPromptPage() {
 		<div className={s.root}>
 			<AppHeader title={product.title}>
 				<TabsWidget
-					tabs={TabsHelper.getTabs({ id, tab: "Ask Assistant", account })}
+					tabs={tabs}
 				/>
 			</AppHeader>
 

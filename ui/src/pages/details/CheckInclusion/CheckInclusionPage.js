@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import DOMPurify from "dompurify";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
@@ -22,6 +22,14 @@ export default function CheckInclusionPage() {
 	const product = products.find((p) => p.id === id);
 	const table = product?.persona + "_prompts";
 
+	const [tabs, setTabs] = useState([])
+
+	useEffect(() => {
+		TabsHelper.getTabs({ id, tab: "Check Inclusion", account }).then(res => {
+			setTabs(res)
+		})
+	}, [])
+
 	useEffect(() => {
 		window.scrollTo(0, 0);
 	}, [id]);
@@ -31,7 +39,7 @@ export default function CheckInclusionPage() {
 		<div className={s.root}>
 			<AppHeader title={product.title}>
 				<TabsWidget
-					tabs={TabsHelper.getTabs({ id, tab: "Check Inclusion", account })}
+					tabs={tabs}
 				/>
 			</AppHeader>
 

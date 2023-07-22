@@ -38,6 +38,14 @@ export default function ReviewPromptPage() {
 
 	const paid = 0; //TODO
 
+	const [tabs, setTabs] = useState([])
+
+	useEffect(() => {
+		TabsHelper.getTabs({ id, tab: "Review Prompts", account }).then(res => {
+			setTabs(res)
+		})
+	}, [])
+
 	const readData = () => {
 		readPrompts(product?.persona, true).then((r) => {
 			console.log(r);
@@ -101,7 +109,7 @@ export default function ReviewPromptPage() {
 		<div className={s.root}>
 			<AppHeader title={product.title}>
 				<TabsWidget
-					tabs={TabsHelper.getTabs({ id, tab: "Review Prompts", account })}
+					tabs={TabsHelper.getTabs(tabs)}
 				/>
 			</AppHeader>
 
