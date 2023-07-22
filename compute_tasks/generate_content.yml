@@ -1,0 +1,7 @@
+version: '3'
+services:
+  split_nn_client:
+    build:
+      context: .
+      dockerfile: generate_content/Dockerfile
+    image: generate_content
