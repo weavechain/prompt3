@@ -4,6 +4,7 @@ import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 
 import { generateContent } from "../../../_redux/actions/content";
+import { initAccount } from "../../../_redux/actions/user";
 
 import s from "./SubmitWidget.module.scss";
 
@@ -38,6 +39,8 @@ export default function SubmitWidget({ product }) {
 				} else {
 					toast.error("Problem while generating response");
 				}
+
+				dispatch(initAccount());
 			});
 		} catch (error) {}
 	};
