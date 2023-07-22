@@ -3,9 +3,10 @@ import LOCAL_STORAGE from "../../helpers/localStorage";
 import { ActionTypes } from "../constants";
 import { checkBalance } from "./content";
 
-export const initAccount= () => {
+export const initAccount = () => {
 	return (dispatch) => {
 		checkBalance().then(b => {
+			console.log(b)
 			let balance
 			if (b.res === 'err') {
 				balance = 0

@@ -4,7 +4,7 @@ import { useParams } from "react-router";
 import { useSelector } from "react-redux";
 
 import { readPrompts, readSuperPrompt } from "../../../_redux/actions/content";
-import { formatAmount } from "../../../helpers/Utils";
+import { formatAmount, hasItems } from "../../../helpers/Utils";
 
 import s from "./ReviewPromptPage.module.scss";
 import AppHeader from "../../../components/AppHeader/AppHeader";
@@ -15,9 +15,11 @@ import SubmitionStatus from "../../../helpers/models/SubmitionStatus";
 import MerkleBlackIcon from "../../../components/icons/MerkleBlackIcon";
 import SuperPromptDialog from "../../../components/dialogs/SuperPromptDialog.js/SuperPromptDialog";
 import PromptsTable from "./PromptsTable";
-import DEFAULT_DEMO_DATA from "../../../_mocks/DEFAULT_DEMO_DATA";
+import { initAccount } from "../../../_redux/actions/user";
+import { useDispatch } from "react-redux";
 
 export default function ReviewPromptPage() {
+	const dispatch = useDispatch();
 	const { id } = useParams() || {};
 
 	// eslint-disable-next-line no-unused-vars
@@ -25,6 +27,7 @@ export default function ReviewPromptPage() {
 	const [proposedPrompts, setProposedPrompts] = useState([]);
 	const [acceptedPrompts, setAcceptedPrompts] = useState([]);
 
+	const [inactive, setInactive] = useState(0);
 	const [tableData, setTableData] = useState([]);
 	const [showSuperDialog, setShowSuperDialog] = useState(false);
 
@@ -35,7 +38,7 @@ export default function ReviewPromptPage() {
 
 	const paid = 0; //TODO
 
-	useEffect(() => {
+	const readData = () => {
 		readPrompts(product?.persona, true).then((r) => {
 			console.log(r);
 			setProposedPrompts(r?.data || []);
@@ -48,14 +51,21 @@ export default function ReviewPromptPage() {
 
 		readSuperPrompt(product?.persona).then((r) => {
 			console.log(r?.data);
-			setSuperPrompt(r?.data ? r?.data[0].text || [] : []);
+			setSuperPrompt(r?.data && r?.data.length && r?.data.length > 0 ? r?.data[0]?.text || [] : [])
 		});
+
+		dispatch(initAccount());
+	}
+
+	useEffect(() => {
+		readData();
 		// eslint-disable-next-line react-hooks/exhaustive-deps
 	}, [product?.id]);
 
 	useEffect(() => {
 		const data = [];
 		let acc = {};
+		let proposed = {};
 
 		(acceptedPrompts || []).forEach((d) => {
 			acc[d.source + ":" + d.text] = true;
@@ -64,21 +74,28 @@ export default function ReviewPromptPage() {
 		console.log(acc);
 
 		(proposedPrompts || []).forEach((d) => {
-			console.log(d);
-			const accepted = acc[d.pubkey + ":" + d.text];
-			data.push({
-				id: d.id,
-				title: d.text,
-				submission_date: d.ts,
-				model: product?.persona,
-				status: accepted ? SubmitionStatus.accepted : SubmitionStatus.inactive,
-				earnings: 0,
-				cost: 5,
-				submitted_by: d.pubkey
-			});
+			const exists = proposed[d.pubkey + ":" + d.text];
+			if (!exists) {
+				proposed[d.pubkey + ":" + d.text] = true;
+				console.log(d);
+				const accepted = acc[d.pubkey + ":" + d.text];
+				data.push({
+					id: d.id,
+					title: d.text,
+					submission_date: d.ts,
+					model: product?.persona,
+					status: accepted ? SubmitionStatus.accepted : SubmitionStatus.inactive,
+					earnings: 0,
+					cost: 5,
+					submitted_by: d.pubkey,
+				});
+			}
 		});
+
+		setInactive(Object.keys(proposed).length - Object.keys(acc).length);
 		setTableData(data);
-	}, [ acceptedPrompts, proposedPrompts]);
+	}, [acceptedPrompts, proposedPrompts]);
+
 
 	return (
 		<div className={s.root}>
@@ -103,9 +120,7 @@ export default function ReviewPromptPage() {
 						</div>
 
 						<div className={s.title}>Super Prompt</div>
-						<div className={s.text}>
-							{superPrompt}
-						</div>
+						<div className={s.text}>{superPrompt}</div>
 					</div>
 					<div className={s.label}>
 						Accepting prompts below will adapt the Super Prompt that serves as
@@ -120,7 +135,7 @@ export default function ReviewPromptPage() {
 					</div>
 					<div className={cx(s.card, s.inactive)}>
 						<div className={s.title}>Inactive</div>
-						<div className={s.value}>{proposedPrompts.length - acceptedPrompts.length}</div>
+						<div className={s.value}>{inactive}</div>
 					</div>
 
 					<div className={cx(s.card, s.earnings)}>
@@ -131,7 +146,7 @@ export default function ReviewPromptPage() {
 					</div>
 				</div>
 
-				<PromptsTable product={product} data={tableData} />
+				<PromptsTable product={product} data={tableData} updateModel={() => readData()} />
 			</div>
 		</div>
 	);

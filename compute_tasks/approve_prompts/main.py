@@ -12,6 +12,8 @@ from weaveapi.weaveh import *
 #LOCAL_CONFIG = "local.config"
 LOCAL_CONFIG = None
 
+price_per_row = 5 #TODO: configurable by row
+
 scope = "vault"
 
 def main():
@@ -38,6 +40,7 @@ def main():
     count = len(reply["data"])
     print(count)
 
+    rows = 0
     for r in reply["data"]:
         if r["id"] in json.loads(params["accept"]):
             filter = Filter(FilterOp.opand(FilterOp.eq("source", r["pubkey"]), FilterOp.eq("text", r["text"])), None, None, None)
@@ -50,10 +53,16 @@ def main():
                 ])
                 res = nodeApi.write(session, scope, records, WRITE_DEFAULT).get()
                 print(res)
+                rows = rows + 1
 
     #records = Records(out_table, [ ... ])
     #res = nodeApi.write(session, scope, records, WRITE_DEFAULT).get()
     #print(res)
+
+    payAmountBps = price_per_row * rows
+    records = Records(os.environ['WEAVE_TASKID'], [ Record('WEAVE_PAY_BPS', payAmountBps, None) ])
+    res = nodeApi.write(session, '.internal_task_params', records, WRITE_DEFAULT).get()
+    print(res)
 
     records = Records(os.environ['WEAVE_TASKID'], [ Record("OUTPUT", count, None) ])
     res = nodeApi.write(session, ".internal_task_params", records, WRITE_DEFAULT).get()

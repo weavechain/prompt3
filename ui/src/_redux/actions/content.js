@@ -1,5 +1,13 @@
 import { binary_to_base58 } from "base58-js"
-import { weaveCheckBalance, weaveCheckInclusionWithMerkle, weaveWriteContent, weaveGenerateContent, weaveDistilPrompt, weaveReadContent } from "../../helpers/weave"
+import {
+    weaveCheckBalance,
+    weaveCheckInclusionWithMerkle,
+    weaveWriteContent,
+    weaveGenerateContent,
+    weaveDistilPrompt,
+    weaveReadContent,
+    weaveApprovePrompts
+} from "../../helpers/weave"
 import keys from "../../weaveapi/keys"
 import { ActionTypes } from "../constants"
 import AppConfig from "../../AppConfig";
@@ -38,20 +46,23 @@ export const generateContent = (persona, prompt) => {
     }
 }
 
-export const distilPrompt = (persona) => {
+export const distilPrompt = (persona, accepted) => {
     return dispatch => {
         return new Promise(resolve => {
-            weaveDistilPrompt(persona, AppConfig.SCOPE).then(response => {
-                console.log(response)
-                if (!response.data || response.res === 'err') {
-                    console.log('Error during prompt distillation: ' + JSON.stringify(response))
-                    resolve(response.message)
-                    return;
-                }
+            weaveApprovePrompts(persona, accepted).then(r =>{
+                console.log(r)
+                weaveDistilPrompt(persona, AppConfig.SCOPE).then(response => {
+                    console.log(response)
+                    if (!response.data || response.res === 'err') {
+                        console.log('Error during prompt distillation: ' + JSON.stringify(response))
+                        resolve(response.message)
+                        return;
+                    }
 
-                dispatch({type: ActionTypes.CONTENT_WRITTEN})
-                resolve(response.data)
-            })
+                    dispatch({type: ActionTypes.CONTENT_WRITTEN})
+                    resolve(response.data)
+                })
+            });
         })
     }
 }

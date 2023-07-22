@@ -47,6 +47,25 @@ export const weaveDistilPrompt = async (persona, scope) => {
     return await nodeApi.compute(session, "gcr.io/weavechain/distil_prompt", options)
 }
 
+export const weaveApprovePrompts = async (persona, prompts) => {
+    const nodeApi = await getNodeApi()
+    if (!nodeApi) {
+        console.log('Error creating node api')
+        return 'Error creating node api'
+    }
+    const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
+
+    // eslint-disable-next-line no-unused-vars
+    const { pub } = getOrCreateKey()
+
+    const params = {
+        persona,
+        accept: prompts
+    }
+    let options = new WeaveHelper.Options.ComputeOptions(true, 300, 0, null, params);
+    return await nodeApi.compute(session, "gcr.io/weavechain/approve_prompts", options)
+}
+
 export const weaveWriteContent = async (table, contentText, title) => {
     const nodeApi = await getNodeApi()
     if (!nodeApi) {

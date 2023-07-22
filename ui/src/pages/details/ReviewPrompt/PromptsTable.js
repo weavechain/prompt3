@@ -19,12 +19,16 @@ import SectionTitleWidget from "../../../components/SectionTitleWidget/SectionTi
 import SubmitionStatus from "../../../helpers/models/SubmitionStatus";
 import StopLicenseDialog from "../../../components/dialogs/StopLicenseDialog/StopLicenseDialog";
 import CustomTableCheckbox from "../../../components/WeaveCheckbox/CustomTableCheckbox";
-import {distilPrompt} from "../../../_redux/actions/content";
+import { distilPrompt } from "../../../_redux/actions/content";
 import { toast } from "react-toastify";
 
 const PAGE_SIZE = AppConfig.PAGE_SIZE;
 
-export default function PromptsTable({ product, data = [], updateModel = () => {} }) {
+export default function PromptsTable({
+	product,
+	data = [],
+	updateModel = () => {},
+}) {
 	const [dataList, setDataList] = useState(data);
 	const [searchText] = useState("");
 	const [selected, setSelected] = useState([]);
@@ -32,11 +36,18 @@ export default function PromptsTable({ product, data = [], updateModel = () => {
 	const [amount, setAmount] = useState(0);
 	const [isGenerating, setIsGenerating] = useState(false);
 	const [reponseText, setReponseText] = useState("");
+	const [acceptedIds, setAcceptedIds] = useState([]);
 	const currency = AppConfig.CURRENCY;
 
 	const dispatch = useDispatch();
 
 	useEffect(() => {
+		const acceptedIds = data
+			.filter((d) => d.status === SubmitionStatus.accepted)
+			.map((d) => d.id);
+
+		setAcceptedIds([...acceptedIds]);
+
 		setDataList(data);
 	}, [data]);
 
@@ -50,10 +61,12 @@ export default function PromptsTable({ product, data = [], updateModel = () => {
 			selectedPrompts.delete(st.id);
 		}
 
-		const am = (dataList || []).reduce(
-			(res, f) => res + 1 * (selectedPrompts.has(f.id) ? f.cost : 0),
-			0
-		);
+		let am = 0;
+		dataList.forEach((r) => {
+			if (selectedPrompts.has(r.id) && SubmitionStatus.accepted !== r.status) {
+				am += r.cost;
+			}
+		});
 
 		setAmount(am);
 		setSelected(Array.from(selectedPrompts));
@@ -63,15 +76,26 @@ export default function PromptsTable({ product, data = [], updateModel = () => {
 		setIsGenerating(true);
 
 		try {
-			dispatch(distilPrompt(product?.persona)).then((result) => {
+			const selectedPrompts = new Set(selected);
+			const newSel = [];
+			dataList.forEach((r) => {
+				if (selected.includes(r.id) && SubmitionStatus.accepted !== r.status) {
+					newSel.push(r.id);
+				}
+			});
+			console.log(newSel);
+
+			dispatch(distilPrompt(product?.persona, newSel)).then((result) => {
 				setIsGenerating(false);
-				console.log(result)
+				console.log(result);
 				if (result?.output) {
 					setReponseText(result?.output);
 					toast.success("Superprompt created");
 				} else {
 					toast.error("Problem while creating super prompt");
 				}
+
+				updateModel();
 			});
 		} catch (error) {}
 	};
@@ -125,7 +149,8 @@ export default function PromptsTable({ product, data = [], updateModel = () => {
 				selectRow={{
 					mode: "checkbox",
 					bgColor: "#f5fafe",
-					selected: selected,
+					selected: [...selected, ...acceptedIds],
+					unselectable: [...acceptedIds],
 					clickToSelect: true,
 					columnWidth: "20px",
 					onSelect: onRowSelect,
