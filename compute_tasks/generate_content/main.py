@@ -32,14 +32,16 @@ def get_params(nodeApi, session):
 
     return params
 
+def get_scope(params):
+    return params["scope"]
+
 def get_user_prompt(params):
     return params["prompt"]
 
 def get_max_tokens(params):
     return 3072 if params.get("max_tokens") is None or len(str(params["max_tokens"])) == 0 else int(params["max_tokens"])
     
-def get_superprompt(params):
-    scope = "shared"
+def get_superprompt(params, scope):
     persona = params["persona"]
     table = persona + "_superprompts"
 
@@ -84,10 +86,13 @@ if __name__ == "__main__":
     params = get_params(nodeApi, session)
     print(f"Fetched params: {params}")
     
+    scope = get_scope(params)
+    print(f"Fetched scope: {scope}")
+    
     prompt = get_user_prompt(params)
     print(f"Fetching prompt: {prompt}")
     
-    superprompt = get_superprompt(params)
+    superprompt = get_superprompt(params, scope)
     print(f"Fetching superprompt: {superprompt}")
     
     if superprompt is not None:
