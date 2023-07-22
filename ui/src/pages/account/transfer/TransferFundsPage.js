@@ -14,11 +14,13 @@ export default function TransferFundsPage() {
 			title: "Submissions",
 			url: "/account/submissions",
 		},
+		/*
 		{
 			title: "Transfer funds",
 			url: "/account/transfer-funds",
 			isActive: true,
 		},
+		 */
 	];
 
 	return (

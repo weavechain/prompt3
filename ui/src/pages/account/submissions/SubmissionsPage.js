@@ -27,10 +27,12 @@ export default function SubmissionsPage() {
 			url: "/account/submissions",
 			isActive: true,
 		},
+		/*
 		{
 			title: "Transfer funds",
 			url: "/account/transfer-funds",
 		},
+		*/
 	];
 
 	// ------------------------------------- METHODS -------------------------------------

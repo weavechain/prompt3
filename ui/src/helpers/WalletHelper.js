@@ -1,7 +1,8 @@
-import abi from '../LineageNFT_abi.json'
+import abi from '../POAP_abi.json'
 
 import AppConfig from "../AppConfig";
 import Web3 from "web3";
+import LOCAL_STORAGE from "../helpers/localStorage";
 
 const GNOSIS_CHAIN_ID = "0x64";
 const GNOSIS_TESTNET_ID = "0x27D8";
@@ -35,8 +36,15 @@ const checkWeb3 = async() => {
 		window.web3 = new Web3(window.ethereum);
 		await window.ethereum.enable();
 
-		if (1 * window.ethereum.networkVersion !== GNOSIS_CHAIN_ID) {
+		let stateData = LOCAL_STORAGE.loadState() || {};
+
+		if (1 * window.ethereum.networkVersion !== GNOSIS_CHAIN_ID && !stateData.chainChanged) {
 			try {
+				LOCAL_STORAGE.saveState({
+					...stateData,
+					chainChanged: true
+				});
+
 				await window.ethereum.request({
 					method: "wallet_switchEthereumChain",
 					params: [{ chainId: GNOSIS_CHAIN_ID }],
@@ -65,11 +73,28 @@ const checkIfUserHasNFT = async () => {
 			return false
 		}
 
-		const contract = await new window.web3.eth.Contract(abi, AppConfig.NFT_TOKEN_URI);
+		const items = AppConfig.NFT_TOKEN_URI.split(":");
+		const addr = items[0] === "POAP" ? items[1] : AppConfig.NFT_TOKEN_URI;
+
+		const contract = await new window.web3.eth.Contract(abi, addr);
 		let count = await contract.methods.balanceOf(account).call();
 		console.log("Wallet " + account + " has " + count + " NFTs");
-		return count > 0;
+
+		if (items[0] === "POAP" && count > 0) {
+			for (let i = 0; i < count; i++) {
+				const details = await contract.methods.tokenDetailsOfOwnerByIndex(account, i).call();
+				const tokenId = details[0];
+
+				if (tokenId == parseInt(items[2])) {
+					return true;
+				}
+			}
+			return false;
+		} else {
+			return count > 0;
+		}
 	} catch (e) {
+		console.log(e)
 		console.log("Error during checkIfUserHasNFT:" + JSON.stringify(e))
 		return false
 	}
