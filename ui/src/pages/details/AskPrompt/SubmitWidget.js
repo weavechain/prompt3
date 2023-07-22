@@ -4,21 +4,16 @@ import { useHistory } from "react-router";
 import { toast } from "react-toastify";
 import { useDispatch } from "react-redux";
 
-import { useParams } from "react-router";
-
 import AppConfig from "../../../AppConfig";
-import { writeContent } from "../../../_redux/actions/content";
+import { generateContent } from "../../../_redux/actions/content";
 
 import s from "./SubmitWidget.module.scss";
 
 import SectionTitleWidget from "../../../components/SectionTitleWidget/SectionTitleWidget";
 import TitleIcon from "../../../components/icons/TitleIcon";
 
-export default function SubmitWidget() {
-	const { product } = useParams() || {};
-	const persona = product?.persona;
-
-	const [table] = useState(""); //TODO: use persona
+export default function SubmitWidget({ product }) {
+	const persona = product?.title;
 
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -27,16 +22,12 @@ export default function SubmitWidget() {
 
 	// ------------------------------------- METHODS -------------------------------------
 	const onSubmit = () => {
-		// TODO: remove after API is fixed
-		history.push("/account/submissions");
-
 		try {
-			dispatch(writeContent(table, text, "")).then((result) => {
+			dispatch(generateContent(product?.persona, text)).then((result) => {
 				if (result === "success") {
-					toast.success("Content submitted successfully");
-					history.push("/account/submissions");
+					toast.success("Answered");
 				} else {
-					toast.error("Problem while submitting content");
+					toast.error("Problem while generating response");
 				}
 			});
 		} catch (error) {}
@@ -79,7 +70,7 @@ export default function SubmitWidget() {
 					<Col lg="6" sm="12">
 						<SectionTitleWidget
 							className={s.sectionTitle}
-							title="Generating Response"
+							title="Generated Response"
 							isMandatory
 							icon={<TitleIcon />}
 						/>

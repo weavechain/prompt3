@@ -23,7 +23,6 @@ export default function CheckInclusionPage() {
 	const [text, setText] = useState("");
 	const [tree, setTree] = useState("");
 	const [showMerkleDialog, setShowMerkleDialog] = useState(false);
-	const [table] = useState(""); //TODO: use persona
 
 	const { id } = useParams() || {};
 	const { products = [] } = useSelector((state) => state.products || {});
@@ -31,6 +30,8 @@ export default function CheckInclusionPage() {
 
 	const product = products.find((p) => p.id === id);
 	const relatedProducts = products.filter((p) => p.id !== id);
+
+	const table = product?.persona + "_prompts";
 
 	useEffect(() => {
 		window.scrollTo(0, 0);
@@ -46,6 +47,7 @@ export default function CheckInclusionPage() {
 
 			{showMerkleDialog ? (
 				<MerkleLeafDialog
+					persona={product?.persona}
 					data={{ hash, rootHash, match, tree }}
 					close={() => setShowMerkleDialog(false)}
 				/>

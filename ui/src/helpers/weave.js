@@ -8,6 +8,24 @@ import { base58_to_binary, binary_to_base58 } from "base58-js";
 
 const { createHash } = require('crypto');
 
+export const weaveGenerateContent = async (persona, prompt) => {
+    const nodeApi = await getNodeApi()
+    if (!nodeApi) {
+        console.log('Error creating node api')
+        return 'Error creating node api'
+    }
+    const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
+
+    const { pub } = getOrCreateKey()
+
+    const params = {
+        persona,
+        prompt
+    }
+    let options = new WeaveHelper.Options.ComputeOptions(true, 300, 0, null, params);
+    return await nodeApi.compute(session, "generate_content", options)
+}
+
 export const weaveWriteContent = async (table, contentText, title) => {
     const nodeApi = await getNodeApi()
     if (!nodeApi) {
@@ -17,6 +35,7 @@ export const weaveWriteContent = async (table, contentText, title) => {
     const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
 
     const { pub } = getOrCreateKey()
+    console.log(table)
     let contentItems = [
         [
             null, // id
@@ -25,14 +44,22 @@ export const weaveWriteContent = async (table, contentText, title) => {
             null, // sig
             null, // ip
             '*',  // roles
-            '',   // link
-            title, // title
-            pub, // author
             contentText // content
         ]
     ]
     let contentRecord = new Records(table, contentItems)
     return await nodeApi.write(session, AppConfig.SCOPE, contentRecord, options.WRITE_DEFAULT)
+}
+
+export const weaveReadContent = async (table, filter = null) => {
+    const nodeApi = await getNodeApi()
+    if (!nodeApi) {
+        console.log('Error creating node api')
+        return 'Error creating node api'
+    }
+    const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
+
+    return await nodeApi.read(session, AppConfig.SCOPE, table, filter, WeaveHelper.Options.READ_DEFAULT_NO_CHAIN);
 }
 
 export const weaveCheckInclusionWithMerkle = async (table, hash) => {
@@ -114,6 +141,7 @@ export const weaveCheckBalance = async () => {
 
 function getOrCreateKey() {
     let stateData = LOCAL_STORAGE.loadState() || {};
+
     const keys = WeaveHelper.generateKeys();
     const pub = stateData.pub || keys[0];
     const pvk = stateData.pvk || keys[1];
@@ -149,6 +177,21 @@ const getNodeApi = async () => {
 }
 
 const getSession = async (nodeApi, organization) => {
-	const account = nodeApi.getClientPublicKey()
-	return await nodeApi.login(organization, account, AppConfig.SCOPE)
+	const account = nodeApi.getClientPublicKey();
+	const session = await nodeApi.login(organization, account, AppConfig.SCOPE);
+
+    let stateData = LOCAL_STORAGE.loadState() || {};
+    console.log(stateData.faucetTried)
+    if (stateData.faucetTried != account) {
+        console.log("Trying faucet");
+        const res = await nodeApi.compute(session, "gcr.io/weavechain/faucet_once", WeaveHelper.Options.COMPUTE_DEFAULT);
+        console.log(res);
+
+        LOCAL_STORAGE.saveState({
+            ...stateData,
+            faucetTried: account
+        });
+    }
+
+    return session;
 }

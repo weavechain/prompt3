@@ -1,5 +1,5 @@
 import { binary_to_base58 } from "base58-js"
-import { weaveCheckBalance, weaveCheckInclusionWithMerkle, weaveWriteContent } from "../../helpers/weave"
+import { weaveCheckBalance, weaveCheckInclusionWithMerkle, weaveWriteContent, weaveGenerateContent, weaveReadContent } from "../../helpers/weave"
 import keys from "../../weaveapi/keys"
 import { ActionTypes } from "../constants"
 import AppConfig from "../../AppConfig";
@@ -21,6 +21,27 @@ export const writeContent = (table, contentText, title) => {
     }
 }
 
+export const generateContent = (persona, prompt) => {
+    return dispatch => {
+        return new Promise(resolve => {
+            weaveGenerateContent(persona, prompt).then(response => {
+                if (!response.data || response.res === 'err') {
+                    console.log('Error during text generation: ' + JSON.stringify(response))
+                    resolve('error')
+                    return;
+                }
+
+                dispatch({type: ActionTypes.CONTENT_WRITTEN})
+                resolve('success')
+            })
+        })
+    }
+}
+
+export const readPrompts = async (persona, proposed = true) => {
+    return await weaveReadContent(persona + (proposed ? "_proposals" : "_prompts"));
+}
+
 export const checkInclusionWithMerkle = async (table, contentText) => {
     const toCheck = JSON.stringify([contentText]);
     let hmacSHA256 = new keys.KeyExchange().signRequest(AppConfig.SALT, toCheck);
@@ -30,6 +51,7 @@ export const checkInclusionWithMerkle = async (table, contentText) => {
     const result = await weaveCheckInclusionWithMerkle(table, hash);
     return { hash, result };
 }
+
 
 export const checkBalance = async () => {
     return await weaveCheckBalance()

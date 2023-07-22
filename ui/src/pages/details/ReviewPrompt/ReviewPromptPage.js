@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState, useEffect } from "react";
 import cx from "classnames";
 import { useParams } from "react-router";
 import { useSelector } from "react-redux";
@@ -12,8 +12,13 @@ import AppConfig from "../../../AppConfig";
 import EarningsTable from "./EarningsTable";
 import TabsHelper from "../../../helpers/TabsHelper";
 
+import { readPrompts } from "../../../_redux/actions/content";
+
+
 export default function ReviewPromptPage() {
 	const { id } = useParams() || {};
+
+	const [prompts, setPrompts] = useState({});
 
 	const { submissions = [] } = useSelector((state) => state.submissions || {});
 	const tableData = submissions.earningsData;
@@ -22,6 +27,14 @@ export default function ReviewPromptPage() {
 
 	const { products = [] } = useSelector((state) => state.products || {});
 	const product = products.find((p) => p.id === id) || {};
+
+
+	useEffect(() => {
+		readPrompts(product?.persona, true).then(r => {
+			console.log(r)
+			setPrompts(r?.data || []);
+		});
+	}, [ product?.id ]);
 
 	return (
 		<div className={s.root}>

@@ -13,9 +13,10 @@ import s from "./SubmissionWidget.module.scss";
 import CheckboxWidget from "../../../components/CheckboxWidget/CheckboxWidget";
 import SectionTitleWidget from "../../../components/SectionTitleWidget/SectionTitleWidget";
 import TitleIcon from "../../../components/icons/TitleIcon";
+import {weaveWriteContent} from "../../../helpers/weave";
 
 export default function SubmissionWidget({ product }) {
-	const [table] = useState(""); //TODO: use persona
+	const [table] = useState(product.persona + "_proposals");
 
 	const dispatch = useDispatch();
 	const history = useHistory();
@@ -26,12 +27,8 @@ export default function SubmissionWidget({ product }) {
 
 	//const minWords = product.license_req;
 	//const hasEnoughWords = wordsCount(text) >= product.license_req;
-
 	// ------------------------------------- METHODS -------------------------------------
 	const onSubmit = () => {
-		// TODO: remove after API is fixed
-		history.push("/account/submissions");
-
 		try {
 			dispatch(writeContent(table, text, title)).then((result) => {
 				if (result === "success") {

@@ -4,6 +4,7 @@ import cx from "classnames";
 import { downloadAsCsv } from "../../../helpers/Utils";
 import s from "./MerkleLeafDialog.module.scss";
 
+import AppConfig from "../../../AppConfig";
 import SectionTitleWidget from "../../SectionTitleWidget/SectionTitleWidget";
 import VerifiedTextWidget from "../../VerifiedTextWidget/VerifiedTextWidget";
 import CopyWidget from "../../../components/CopyWidget/CopyWidget";
@@ -11,7 +12,7 @@ import MerkleBlackIcon from "../../../components/icons/MerkleBlackIcon";
 import HashIcon from "../../../components/icons/HashIcon";
 import ShareIcon from "../../../components/icons/ShareIcon";
 
-export default function MerkleLeafDialog({ data = {}, close = () => {} }) {
+export default function MerkleLeafDialog({ persona = "", data = {}, close = () => {} }) {
 	var date = new Date();
 	var now =
 		("00" + (date.getMonth() + 1)).slice(-2)
@@ -26,8 +27,7 @@ export default function MerkleLeafDialog({ data = {}, close = () => {} }) {
 	const tree = data.tree;
 	const contentHash = data.hash;
 	const merkleRoot = data.rootHash;
-	const smartContractUrl =
-		"https://mumbai.polygonscan.com/address/0x4a2DEA252D04c9da1029689c4907Ac36a5854d24";
+	const smartContractUrl = AppConfig.chainExplorer + AppConfig.rootHashContracts[persona];
 
 	// ------------------------------------- METHODS -------------------------------------
 	const downloadTree = () => {
