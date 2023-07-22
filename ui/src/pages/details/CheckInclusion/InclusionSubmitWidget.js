@@ -12,7 +12,7 @@ import DigitalIcon from "../../../components/icons/DigitalIcon";
 import MerkleBlackIcon from "../../../components/icons/MerkleBlackIcon";
 import InclusionResponse from "./InclusionResponse";
 
-export default function InclusionSubmitWidget({ table }) {
+export default function InclusionSubmitWidget({ persona, table }) {
 	const [text, setText] = useState("");
 	const [hash, setHash] = useState("");
 	const [rootHash, setRootHash] = useState("");
@@ -75,7 +75,7 @@ export default function InclusionSubmitWidget({ table }) {
 					</Col>
 
 					<Col lg="6" sm="12">
-						<InclusionResponse response={response} />
+						<InclusionResponse persona={persona} response={response} />
 					</Col>
 				</Row>
 			</div>

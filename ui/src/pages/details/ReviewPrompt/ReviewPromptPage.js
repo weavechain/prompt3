@@ -47,20 +47,23 @@ export default function ReviewPromptPage() {
 	}, [])
 
 	const readData = () => {
-		readPrompts(product?.persona, true).then((r) => {
-			console.log(r);
-			setProposedPrompts(r?.data || []);
-		});
+		if (product?.persona) {
+			console.log(product?.persona)
+			readPrompts(product?.persona, true).then((r) => {
+				console.log(r);
+				setProposedPrompts(r?.data || []);
+			});
 
-		readPrompts(product?.persona, false).then((r) => {
-			console.log(r);
-			setAcceptedPrompts(r?.data || []);
-		});
+			readPrompts(product?.persona, false).then((r) => {
+				console.log(r);
+				setAcceptedPrompts(r?.data || []);
+			});
 
-		readSuperPrompt(product?.persona).then((r) => {
-			console.log(r?.data);
-			setSuperPrompt(r?.data && r?.data.length && r?.data.length > 0 ? r?.data[0]?.text || [] : [])
-		});
+			readSuperPrompt(product?.persona).then((r) => {
+				console.log(r?.data);
+				setSuperPrompt(r?.data && r?.data.length && r?.data.length > 0 ? r?.data[0]?.text || [] : [])
+			});
+		}
 
 		dispatch(initAccount());
 	}

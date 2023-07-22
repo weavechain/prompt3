@@ -4,7 +4,7 @@ import s from "./ResponseHashDialog.module.scss";
 
 import SectionTitleWidget from "../../SectionTitleWidget/SectionTitleWidget";
 import CopyWidget from "../../CopyWidget/CopyWidget";
-import HashIcon from "../../icons/HashIcon";
+import HashIcon from "../../../components/icons/HashIcon";
 import ContractIcon from "../../../components/icons/ContractIcon";
 import ResponseIcon from "../../../components/icons/ResponseIcon";
 import LockIcon from "../../../components/icons/LockIcon";

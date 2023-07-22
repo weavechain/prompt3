@@ -12,8 +12,11 @@ import CopyWidget from "../../../components/CopyWidget/CopyWidget";
 import VerifiedTextWidget from "../../../components/VerifiedTextWidget/VerifiedTextWidget";
 import DownloadIcon from "../../../components/icons/DownloadIcon";
 import { downloadAsCsv, now } from "../../../helpers/Utils";
+import HashIcon from "../../../components/icons/HashIcon";
+import ShareIcon from "../../../components/icons/ShareIcon";
+import AppConfig from "../../../AppConfig";
 
-export default function InclusionResponse({ response }) {
+export default function InclusionResponse({ persona, response }) {
 	/* const response = {
 		hash: "Dym41dxkuXKGGv3CF56A5ef4DkZJ85ydcqW5LAE9tQv2",
 		result: { match: false, rootHash: "", tree: "" },
@@ -30,6 +33,8 @@ export default function InclusionResponse({ response }) {
 			downloadAsCsv(response.tree, columns, "tree.txt");
 		}
 	};
+
+	const smartContractUrl = AppConfig.chainExplorer + AppConfig.rootHashContracts[persona];
 
 	return !response ? (
 		<div className={s.root}>
@@ -60,6 +65,17 @@ export default function InclusionResponse({ response }) {
 						<SectionTitleWidget
 							className={s.sectionTitle}
 							title="Content Hash"
+						/>
+					}
+				/>
+
+				<CopyWidget
+					text={response.hash}
+					inputStyle={s.sectionInput}
+					title={
+						<SectionTitleWidget
+							className={s.sectionTitle}
+							title="Smart Contract"
 						/>
 					}
 				/>
@@ -103,6 +119,22 @@ export default function InclusionResponse({ response }) {
 							className={s.sectionTitle}
 							title="Content Hash"
 						/>
+					}
+				/>
+
+				<CopyWidget
+					text={smartContractUrl}
+					inputStyle={cx(s.sectionInput, s.contract)}
+					title={
+						<SectionTitleWidget
+							rootClassName={s.sectionTitle}
+							title="Smart Contract"
+						/>
+					}
+					customIcon={
+						<div onClick={() => window.open(smartContractUrl, "_blank")}>
+							<ShareIcon width={25} height={25} />
+						</div>
 					}
 				/>
 

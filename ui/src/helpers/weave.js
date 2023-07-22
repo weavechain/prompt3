@@ -3,11 +3,15 @@ import options from "../weaveapi/options";
 import Records from "../weaveapi/records";
 import WeaveAPI from "../weaveapi/weaveapi";
 import AppConfig from "../AppConfig";
+import Web3 from "web3";
 import LOCAL_STORAGE from "./localStorage";
 import { base58_to_binary, binary_to_base58 } from "base58-js";
 import _ from "lodash";
 
 const { createHash } = require('crypto');
+
+const chain = "gnosis";
+const signWallet = false;
 
 export const weaveGenerateContent = async (persona, prompt, scope) => {
     const nodeApi = await getNodeApi()
@@ -218,21 +222,117 @@ const getNodeApi = async () => {
 	return nodeApi
 }
 
+function toHex(arr) {
+    let res = "";
+    for (var i = 0; i < arr.length; ++i) {
+        const x = arr[i];
+        const v = (x < 0 ? 256 + x : x).toString(16);
+        if (v.length === 1) res += "0";
+        res += v;
+    }
+    return res;
+}
+
+function getMessageToSign(wallet, pub, signWalletOnly = false) {
+    return signWalletOnly
+        ? wallet
+        : "Please sign this message to confirm you own this wallet\nThere will be no blockchain transaction or any gas fees." +
+        "\n\nWallet: " +
+        wallet +
+        "\nKey: " +
+        pub;
+}
+
+export async function getMetamaskWallet() {
+    if (window.ethereum) {
+        window.web3 = new Web3(window.ethereum);
+        window.ethereum.enable();
+
+        let accounts = await window.ethereum.request({
+            method: "eth_requestAccounts",
+        });
+        if (!accounts || accounts.length === 0) {
+            accounts = await window.ethereum.request({
+                method: "eth_requestAccounts",
+            });
+        }
+        return Web3.utils.toChecksumAddress(accounts[0]);
+    } else {
+        return null;
+    }
+}
+
 const getSession = async (nodeApi, organization) => {
-	const account = nodeApi.getClientPublicKey();
-	const session = await nodeApi.login(organization, account, AppConfig.SCOPE);
-
     let stateData = LOCAL_STORAGE.loadState() || {};
-    console.log(stateData.faucetTried)
-    if (stateData.faucetTried !== account) {
-        console.log("Trying faucet");
-        const res = await nodeApi.compute(session, "gcr.io/weavechain/faucet_once", WeaveHelper.Options.COMPUTE_DEFAULT);
-        console.log(res);
 
+    let credentials = null;
+    if (signWallet) {
+        const needsWallet = true;
+        let wallet = needsWallet ? await getMetamaskWallet() : "";
+        const address = wallet;
+
+        const keys = WeaveHelper.generateKeys();
+        const pub = (address ? stateData["pub" + address] : stateData.pub) || keys[0];
+        const pvk = (address ? stateData["pvk" + address] : stateData.pvk) || keys[1];
+
+        let {signatures} = stateData;
+
+        const signWalletOnly = false;
+        let key = null;
+        let sig = null;
+
+        key = "eth:" + wallet + ":" + (signWalletOnly ? "wallet" : pub);
+        if (!signatures || !signatures[key]) {
+            if (!signatures) signatures = {};
+
+            let msg = getMessageToSign(wallet, pub, signWalletOnly);
+
+            sig = await window.ethereum.request({
+                method: "personal_sign",
+                params: [wallet, signWalletOnly ? toHex(msg) : msg],
+            });
+            signatures[key] = sig;
+        } else {
+            sig = signatures[key];
+        }
+
+       credentials = sig
+            ? {
+                account: chain + ":" + wallet,
+                sig: sig,
+                template: "*",
+                role: "*",
+            }
+            : null;
+
+        const newState = {
+            ...stateData,
+            signatures: signatures,
+        }
+        if (address) {
+            newState["pub" + address] = pub;
+            newState["pvk" + address] = pvk;
+        } else {
+            newState.pub = pub;
+            newState.pvk = pvk;
+        }
+        LOCAL_STORAGE.saveState(newState);
+
+        console.log(credentials)
+    }
+
+	const account = nodeApi.getClientPublicKey();
+	const session = await nodeApi.login(organization, account, AppConfig.SCOPE, credentials);
+
+    if (stateData.faucetTried !== account) {
         LOCAL_STORAGE.saveState({
             ...stateData,
             faucetTried: account
         });
+
+        console.log("Trying faucet");
+        const res = await nodeApi.compute(session, "gcr.io/weavechain/faucet_once", WeaveHelper.Options.COMPUTE_DEFAULT);
+        console.log(res);
     }
 
     return session;
@@ -247,10 +347,11 @@ export const writeLineage = async (response, persona) => {
     const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
 
     const table = "personas_lineage"
-    let rootHash = '{}'
-    if (_.isEmpty(response.data.rootHashes)) {
-        rootHash = response.data.rootHashes.split('=')[2].slice(0, -2);
+    let rootHash = ''
+    if (response.data.rootHashes) {
+        rootHash = response.data.rootHashes.split('=')[2].slice(0, -3);
     }
+    console.log(response.data)
     let lineage = {
         "rootHash": rootHash,
         "inputHash": response.data.inputHash,
@@ -258,6 +359,7 @@ export const writeLineage = async (response, persona) => {
         "outputHash": response.data.outputHash,
         "writesSignature": response.data.writesSignature
     }
+    console.log(lineage)
     let contentItems = [
         [
             null, // id

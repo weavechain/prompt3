@@ -6,7 +6,7 @@ import { checkBalance } from "./content";
 export const initAccount = () => {
 	return (dispatch) => {
 		checkBalance().then(b => {
-			console.log(b)
+			//console.log(b)
 			let balance
 			if (b.res === 'err') {
 				balance = 0

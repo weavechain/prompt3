@@ -48,11 +48,12 @@ export default function CheckInclusionPage() {
 				return;
 			}
 			try {
-				setRootHash(JSON.parse(response[0].lineage).rootHashes)
-				setInputHash(JSON.parse(response[0].lineage).inputHashes)
-				setComputeHash(JSON.parse(response[0].lineage).computeHash)
-				setOutputHash(JSON.parse(response[0].lineage).outputHash)
-				setWritesSignature(JSON.parse(response[0].lineage).writesSignature)
+				const lineage = JSON.parse(response[0].lineage)
+				setRootHash(lineage.rootHash)
+				setInputHash(lineage.inputHash)
+				setComputeHash(lineage.computeHash)
+				setOutputHash(lineage.outputHash)
+				setWritesSignature(lineage.writesSignature)
 			} catch (e) {}
 		})
 	}, [])
@@ -68,7 +69,7 @@ export default function CheckInclusionPage() {
 
 			<div className={s.content}>
 				<div className={s.section}>
-					<InclusionSubmitWidget table={table} />
+					<InclusionSubmitWidget persona={product.persona} table={table} />
 				</div>
 
 				<div className={s.section}>
