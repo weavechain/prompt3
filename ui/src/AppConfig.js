@@ -21,14 +21,14 @@ const AppConfig = {
 	DIGEST: "SHA-256",
 	SALT: "salt1234",
 	samplePublicKey: "weavee4d9abgaypPw6789h3oKMh8TzXm62sNaADDryq6JY36o",
-	chainExplorer: "https://mumbai.polygonscan.com/address/",
+	chainExplorer: "https://blockscout.chiadochain.net/address/",
 	rootHashContracts: {
-		'paris_guide': '0x32D8c718Cd46645fd8D46CCbeB40137b54458F9e',
-		'solidity_engineer': '0xD77a19BB70D83a096B58a6b39da447349719ED7B',
-		'startup_adviser': '0xD77a19BB70D83a096B58a6b39da447349719ED7B',
-		'crypto_trader': '0xE4DbaE4988eaAB3f5F493BA51365719879554B52',
-		'pregnancy_nurse': '0xF52E3a2fe273170E51A37d3aCa25e81e38315FcE',
-		'ethical_data_consultant': '0x8A7E9b3Fd0Df611adFCda2899d694fd877633D08'
+		'paris_guide': '0x281912371C490C4818cC57afB8dF88114C6888C0',
+		'solidity_engineer': '0xA80A6d1B28b5407C40A03c5Fa209F0965B7DAeDb',
+		'startup_adviser': '0xf62E3761Ab10c902cC6a3446c3B323998236C3De',
+		'crypto_trader': '0x1e315623554980BAff3619292961459379f522B3',
+		'pregnancy_nurse': '0x8ABa2a9C0DC74B62dC89Fb1d263bE4B4a49CDcc',
+		'ethical_data_consultant': '0x52FA0464433EE72B46fA0bd3E071671089bb279F'
 	}
 };
 

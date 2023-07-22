@@ -1,34 +1,32 @@
-const POLYGON_CHAIN_ID = "0x89";
-const POLYGON_TESTNET_ID = "0x13881";
+const GNOSIS_CHAIN_ID = "0x64";
+const GNOSIS_TESTNET_ID = "0x27D8";
 
-const POLYGON_MAINCHAIN = {
-	chainId: POLYGON_CHAIN_ID,
-	chainName: "Polygon Mainnet",
+const GNOSIS_MAINCHAIN = {
+	chainId: GNOSIS_CHAIN_ID,
+	chainName: "Gnosis",
 	nativeCurrency: {
-		name: "MATIC",
-		symbol: "MATIC",
+		name: "xDai",
+		symbol: "xDai",
 		decimals: 18,
 	},
-	rpcUrls: ["https://polygon-rpc.com"],
-	blockExplorerUrls: ["https://polygonscan.com/"],
+	rpcUrls: ["https://rpc.gnosischain.com"],
+	blockExplorerUrls: ["https://gnosisscan.io/"],
 };
 
-const POLYGON_TESTNET = {
-	chainId: POLYGON_TESTNET_ID,
-	chainName: "Mumbai Testnet",
+const GNOSIS_TESTNET = {
+	chainId: GNOSIS_TESTNET_ID,
+	chainName: "Chiado Testnet",
 	nativeCurrency: {
-		name: "MATIC",
-		symbol: "MATIC",
+		name: "Chiado xDai",
+		symbol: "xDai",
 		decimals: 18,
 	},
-	rpcUrls: ["https://rpc-mumbai.maticvigil.com"],
-	blockExplorerUrls: ["https://mumbai.polygonscan.com/"],
+	rpcUrls: ["https://rpc.chiadochain.net"],
+	blockExplorerUrls: ["https://blockscout.com/gnosis/chiado/"],
 };
 
 const TOKENS = {
-	//"polygon-testnet:USDC": "0xE097d6B3100777DC31B34dC2c58fB524C2e76921",
-	"polygon-testnet:USDC": "0xb3fd6caa31d92dca1b287899b13005a79c0dee60",
-	"avalanche:USDT": "0x9702230A8Ea53601f5cD2dc00fDBc13d4dF4A8c7",
+	"gnosis:USDC": "0x087C5c24dCC412aEb0194503B51f74139b90596C"
 };
 
 // ------------------------------------- METHODS -------------------------------------
@@ -37,11 +35,11 @@ const getTokenAddress = ({ token }) => {
 };
 
 const getChain = (useTestnet) => {
-	return useTestnet ? POLYGON_TESTNET : POLYGON_MAINCHAIN;
+	return useTestnet ? GNOSIS_TESTNET : GNOSIS_MAINCHAIN;
 };
 
 const getChainId = (useTestnet) => {
-	return parseInt(useTestnet ? POLYGON_TESTNET_ID : POLYGON_CHAIN_ID, 16);
+	return parseInt(useTestnet ? GNOSIS_TESTNET_ID : GNOSIS_CHAIN_ID, 16);
 };
 
 const BlockchainHelper = {
