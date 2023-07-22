@@ -266,8 +266,8 @@ export const writeLineage = async (response, persona) => {
             null, // sig
             null, // ip
             '*',  // roles
-            persona, //content
-            lineage // content
+            persona, //model
+            JSON.stringify(lineage) // content
         ]
     ]
     let contentRecord = new Records(table, contentItems)
@@ -283,7 +283,7 @@ export const weaveReadLineage = async (persona) => {
     const session = await getSession(nodeApi, AppConfig.ORGANIZATION)
 
     const table = "personas_lineage"
-    let filter = new WeaveHelper.Filter(WeaveHelper.FilterOp.eq("persona", persona), {"id": "ASC"}, 1, null)
+    let filter = new WeaveHelper.Filter(WeaveHelper.FilterOp.eq("persona", persona), {"id": "ASC"}, null, [ "persona" ])
     console.log("Fetching personas lineage for persona ", persona)
    
     return await nodeApi.read(session, AppConfig.SCOPE, table, filter, WeaveHelper.Options.READ_DEFAULT_NO_CHAIN);

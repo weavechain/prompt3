@@ -22,7 +22,11 @@ export default function ListingOverview({ product = {} }) {
 			if (!response[0]) {
 				return;
 			}
-			setWritesSignature(JSON.parse(response[0].lineage).writesSignature)
+			if (response[0].lineage) {
+				try {
+					setWritesSignature(JSON.parse(response[0].lineage).writesSignature);
+				} catch (e) {}
+			}
 		})
 	}, [])
 

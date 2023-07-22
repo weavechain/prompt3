@@ -104,12 +104,11 @@ export default function ReviewPromptPage() {
 		setTableData(data);
 	}, [acceptedPrompts, proposedPrompts]);
 
-
 	return (
 		<div className={s.root}>
 			<AppHeader title={product.title}>
 				<TabsWidget
-					tabs={TabsHelper.getTabs(tabs)}
+					tabs={tabs}
 				/>
 			</AppHeader>
 

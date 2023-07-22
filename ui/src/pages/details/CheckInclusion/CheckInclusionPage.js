@@ -44,14 +44,16 @@ export default function CheckInclusionPage() {
 
 	useEffect(() => {
 		dispatch(readLineage(product?.persona)).then(response => {
-			if (!response[0]) {
+			if (!response[0] || !response[0].lineage) {
 				return;
 			}
-			setRootHash(JSON.parse(response[0].lineage).rootHashes)
-			setInputHash(JSON.parse(response[0].lineage).inputHashes)
-			setComputeHash(JSON.parse(response[0].lineage).computeHash)
-			setOutputHash(JSON.parse(response[0].lineage).outputHash)
-			setWritesSignature(JSON.parse(response[0].lineage).writesSignature)
+			try {
+				setRootHash(JSON.parse(response[0].lineage).rootHashes)
+				setInputHash(JSON.parse(response[0].lineage).inputHashes)
+				setComputeHash(JSON.parse(response[0].lineage).computeHash)
+				setOutputHash(JSON.parse(response[0].lineage).outputHash)
+				setWritesSignature(JSON.parse(response[0].lineage).writesSignature)
+			} catch (e) {}
 		})
 	}, [])
 
