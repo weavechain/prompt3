@@ -9,22 +9,26 @@ from weaveapi.options import *
 
 from weaveapi.weaveh import *
 
-params = {
-    "persona": "paris_guide",
-    "accept": [ 1, 3]
-}
-
-LOCAL_CONFIG = "local.config"
-#LOCAL_CONFIG = None
-
-persona = params["persona"];
+#LOCAL_CONFIG = "local.config"
+LOCAL_CONFIG = None
 
 scope = "vault"
-in_table = persona + '_proposals'
-out_table = persona + '_prompts'
 
 def main():
     nodeApi, session = connect_weave_api(LOCAL_CONFIG)
+
+    #params = {
+    #    "persona": "paris_guide",
+    #    "accept": "[ 1, 3 ]"
+    #}
+
+    reply = nodeApi.read(session, ".internal_task_params", os.environ['WEAVE_TASKID'], None, READ_DEFAULT_NO_CHAIN).get()
+    params = reply["data"]
+    #print(params)
+
+    persona = params["persona"]
+    in_table = persona + '_proposals'
+    out_table = persona + '_prompts'
 
     order = {"id" : "DESC"}
     filter = None
@@ -35,7 +39,7 @@ def main():
     print(count)
 
     for r in reply["data"]:
-        if r["id"] in params["accept"]:
+        if r["id"] in json.loads(params["accept"]):
             filter = Filter(FilterOp.opand(FilterOp.eq("source", r["pubkey"]), FilterOp.eq("text", r["text"])), None, None, None)
             racc = nodeApi.read(session, scope, out_table, filter, READ_DEFAULT_NO_CHAIN).get()
             exists = len(racc["data"]) > 0
