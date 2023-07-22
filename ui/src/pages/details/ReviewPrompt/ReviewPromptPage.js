@@ -36,7 +36,7 @@ export default function ReviewPromptPage() {
 	const { products = [] } = useSelector((state) => state.products || {});
 	const product = products.find((p) => p.id === id) || {};
 
-	const paid = 0; //TODO
+	const paid = acceptedPrompts.length * 5;
 
 	const [tabs, setTabs] = useState([])
 
