@@ -106,7 +106,7 @@ export default function InclusionResponse({ persona, response }) {
 		<div className={s.root}>
 			<SectionTitleWidget
 				className={s.sectionTitle}
-				title="No Matches Found in Merkle Tree"
+				title={response.result?.match ? "Match Found in Merkle Tree" : "No Matches Found in Merkle Tree"}
 				icon={<MerkleBlackIcon />}
 			/>
 
