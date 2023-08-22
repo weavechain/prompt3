@@ -84,7 +84,7 @@ const createApi = async (
 	await nodeApi.init();
 	//console.log(await nodeApi.ping());
 
-	const signWalletOnly = node.endsWith("a3c9fc9c60fbb7dabdd181bf86b3989d"); //Hack for genobank compat signing, hopefully we get them away from signing the wallet
+	const signWalletOnly = false;
 	let key = null;
 	let sig = null;
 	if (chain === "solana") {

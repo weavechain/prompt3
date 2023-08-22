@@ -120,7 +120,7 @@ if __name__ == "__main__":
         print(f"Fetched chat completion flag: {use_chat_completion}")
         
         model_engine = choose_engine(use_chat_completion)
-        print(f"Fetched model endine: {model_engine}")
+        print(f"Fetched model engine: {model_engine}")
         
         superprompt = get_response(use_chat_completion, model_engine, max_tokens, distilation_prompt, prompts)
         print(f"Got chatgpt response: {superprompt}") 
